@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>pevecmax · Dashboard</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="mx">
+    <h1>pevecmax · Services</h1>
+  </header>
+
+  <main class="mx">
+    <section class="grid">
+      <a class="tile" href="https://n8n.pevecmax.uk" target="_blank" rel="noopener">n8n</a>
+      <a class="tile" href="https://paperless.pevecmax.uk" target="_blank" rel="noopener">Paperless</a>
+      <a class="tile" href="https://ha.pevecmax.uk" target="_blank" rel="noopener">Home Assistant</a>
+    </section>
+
+    <section class="chat">
+      <h2>KI-Chat</h2>
+      <div id="chatlog"></div>
+      <div class="row">
+        <input id="prompt" type="text" placeholder="Frag mich etwas …" />
+        <button id="send">Senden</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="mx">
+    <small>© pevecmax.uk</small>
+  </footer>

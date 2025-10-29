@@ -1,51 +1,47 @@
-// --- Chat UI helpers ---
-const overlay = document.getElementById('chat-overlay');
-const openBtn = document.getElementById('open-chat');
-const fabBtn  = document.getElementById('fab-chat');
-const closeBtn= document.getElementById('close-chat');
-const log     = document.getElementById('chatlog');
-const input   = document.getElementById('prompt');
-const sendBtn = document.getElementById('send');
+// Chat UI
+const overlay=document.getElementById('chat-overlay');
+const openChat=document.getElementById('open-chat');
+const closeChat=document.getElementById('close-chat');
+const log=document.getElementById('chatlog');
+const input=document.getElementById('prompt');
+const send=document.getElementById('send');
 
-function showChat(){ overlay.classList.remove('hidden'); setTimeout(()=>input?.focus(), 50); }
-function hideChat(){ overlay.classList.add('hidden'); }
+openChat?.addEventListener('click',()=>overlay.classList.remove('hidden'));
+closeChat?.addEventListener('click',()=>overlay.classList.add('hidden'));
+overlay?.addEventListener('click',e=>{if(e.target===overlay)overlay.classList.add('hidden');});
 
-openBtn?.addEventListener('click', showChat);
-fabBtn ?.addEventListener('click', showChat);
-closeBtn?.addEventListener('click', hideChat);
-overlay?.addEventListener('click', (e)=>{ if(e.target===overlay) hideChat(); });
-
-function push(role, text){
-  const div = document.createElement('div');
-  div.className = `msg ${role==='user'?'you':'ai'}`;
-  div.textContent = text;
-  log.appendChild(div);
-  log.scrollTop = log.scrollHeight;
+function push(role,text){
+  const d=document.createElement('div');
+  d.className=`msg ${role==='user'?'you':'ai'}`;
+  d.textContent=text;
+  log.appendChild(d);
+  log.scrollTop=log.scrollHeight;
 }
-
-async function ask(text){
-  if(!text) return;
-  push('user', text);
-  input.value = '';
-  sendBtn.disabled = true;
+async function ask(t){
+  if(!t)return;push('user',t);input.value='';send.disabled=true;
   try{
-    const res = await fetch('/api/chat', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ message: text })
-    });
-    if(!res.ok) throw new Error('HTTP '+res.status);
-    const data = await res.json();
-    push('assistant', data.reply || '(keine Antwort)');
-  }catch(e){
-    push('assistant', 'Fehler: '+e.message);
-  }finally{
-    sendBtn.disabled = false;
-    input.focus();
+    const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:t})});
+    const j=await r.json();push('assistant',j.reply||'(keine Antwort)');
+  }catch(e){push('assistant','Fehler: '+e.message);}finally{send.disabled=false;}
+}
+send.addEventListener('click',()=>ask(input.value.trim()));
+input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();ask(input.value.trim());}});
+
+// Online/Offline Ping
+async function checkStatus(card){
+  const url=card.dataset.host;
+  try{
+    const ctrl=new AbortController();
+    const id=setTimeout(()=>ctrl.abort(),4000);
+    const res=await fetch(url,{mode:'no-cors',signal:ctrl.signal});
+    clearTimeout(id);
+    const dot=card.querySelector('.status');
+    dot.style.background='var(--on)';
+    dot.style.boxShadow='0 0 8px var(--on)';
+  }catch{
+    const dot=card.querySelector('.status');
+    dot.style.background='var(--off)';
+    dot.style.boxShadow='0 0 8px var(--off)';
   }
 }
-
-sendBtn?.addEventListener('click', ()=> ask(input.value.trim()));
-input?.addEventListener('keydown', e => {
-  if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); ask(input.value.trim()); }
-});
+document.querySelectorAll('.card[data-host]').forEach(c=>checkStatus(c));

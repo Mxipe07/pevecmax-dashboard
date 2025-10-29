@@ -3,31 +3,77 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>pevecmax · Dashboard</title>
+  <title>pevecmax · Services</title>
   <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
-  <header class="mx">
+  <!-- Hintergrund-Blur-Blobs -->
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+
+  <header class="mx topbar">
     <h1>pevecmax · Services</h1>
   </header>
 
+  <!-- App-Grid: kompakt, 2 Spalten auf Mobile -->
   <main class="mx">
-    <section class="grid">
-      <a class="tile" href="https://n8n.pevecmax.uk" target="_blank" rel="noopener">n8n</a>
-      <a class="tile" href="https://paperless.pevecmax.uk" target="_blank" rel="noopener">Paperless</a>
-      <a class="tile" href="https://ha.pevecmax.uk" target="_blank" rel="noopener">Home Assistant</a>
-    </section>
+    <section class="app-grid">
+      <a class="app-card ha" href="https://haos.pevecmax.uk" target="_blank" rel="noopener">
+        <span class="logo"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/homeassistant.svg" alt=""></span>
+        <span class="label">Home Assistant</span>
+      </a>
 
-    <section class="chat">
-      <h2>KI-Chat</h2>
-      <div id="chatlog"></div>
-      <div class="row">
-        <input id="prompt" type="text" placeholder="Frag mich etwas …" />
-        <button id="send">Senden</button>
-      </div>
+      <a class="app-card n8n" href="https://n8n.pevecmax.uk" target="_blank" rel="noopener">
+        <span class="logo"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/n8n.svg" alt=""></span>
+        <span class="label">n8n</span>
+      </a>
+
+      <a class="app-card nginx" href="https://paper.pevecmax.uk" target="_blank" rel="noopener">
+        <span class="logo"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/nginx.svg" alt=""></span>
+        <span class="label">Paperless NGINX</span>
+      </a>
+
+      <a class="app-card zigbee" href="https://z2m.pevecmax.uk" target="_blank" rel="noopener">
+        <span class="logo"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/zigbee.svg" alt=""></span>
+        <span class="label">Zigbee2MQTT</span>
+      </a>
+
+      <a class="app-card nas" href="https://nas.pevecmax.uk" target="_blank" rel="noopener">
+        <span class="logo"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/server.svg" alt=""></span>
+        <span class="label">Ugreen NAS</span>
+      </a>
+
+      <button class="app-card gpt" id="open-chat" type="button">
+        <span class="logo"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/openai.svg" alt=""></span>
+        <span class="label">ChatGPT</span>
+      </button>
     </section>
   </main>
 
-  <footer class="mx">
-    <small>© pevecmax.uk</small>
-  </footer>
+  <!-- Floating Chat-Button (immer sichtbar) -->
+  <button id="fab-chat" class="fab gpt" aria-label="Chat öffnen">
+    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/openai.svg" alt="">
+  </button>
+
+  <!-- Chat-Overlay (Glass-Morphism Panel) -->
+  <div id="chat-overlay" class="chat-overlay hidden">
+    <div class="chat-panel">
+      <div class="chat-header">
+        <div class="title"><span class="dot"></span> ChatGPT</div>
+        <button class="close" id="close-chat" aria-label="Schließen">✕</button>
+      </div>
+
+      <div id="chatlog" class="chat-log"></div>
+
+      <div class="chat-input">
+        <input id="prompt" type="text" placeholder="Frag mich etwas …" />
+        <button id="send">Senden</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="mx foot">© pevecmax.uk</footer>
+  <script src="/app.js"></script>
+</body>
+</html>

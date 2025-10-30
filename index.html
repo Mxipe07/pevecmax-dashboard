@@ -4,76 +4,68 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>pevecmax · Services</title>
-  <link rel="stylesheet" href="/styles.css" />
+  <link rel="preload" href="styles.css" as="style">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Hintergrund-Blur-Blobs -->
-  <div class="blob b1"></div>
-  <div class="blob b2"></div>
-  <div class="blob b3"></div>
-
-  <header class="mx topbar">
+  <div class="bg"></div>
+  <header>
     <h1>pevecmax · Services</h1>
   </header>
 
-  <!-- App-Grid: kompakt, 2 Spalten auf Mobile -->
-  <main class="mx">
-    <section class="app-grid">
-      <a class="app-card ha" href="https://haos.pevecmax.uk" target="_blank" rel="noopener">
-        <span class="logo"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/homeassistant.svg" alt=""></span>
-        <span class="label">Home Assistant</span>
-      </a>
+  <main class="grid">
+    <a class="card ha" href="https://haos.pevecmax.uk" data-host="https://haos.pevecmax.uk">
+      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/homeassistant.svg" alt="">
+      <div class="info"><span>Home Assistant</span><small>Smart Home Hub</small></div>
+      <div class="status"></div>
+    </a>
 
-      <a class="app-card n8n" href="https://n8n.pevecmax.uk" target="_blank" rel="noopener">
-        <span class="logo"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/n8n.svg" alt=""></span>
-        <span class="label">n8n</span>
-      </a>
+    <a class="card n8n" href="https://n8n.pevecmax.uk" data-host="https://n8n.pevecmax.uk">
+      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/n8n.svg" alt="">
+      <div class="info"><span>n8n</span><small>Automations</small></div>
+      <div class="status"></div>
+    </a>
 
-      <a class="app-card nginx" href="https://paper.pevecmax.uk" target="_blank" rel="noopener">
-        <span class="logo"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/nginx.svg" alt=""></span>
-        <span class="label">Paperless NGINX</span>
-      </a>
+    <a class="card nginx" href="https://paper.pevecmax.uk" data-host="https://paper.pevecmax.uk">
+      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/nginx.svg" alt="">
+      <div class="info"><span>Paperless NGINX</span><small>Docs & PDFs</small></div>
+      <div class="status"></div>
+    </a>
 
-      <a class="app-card zigbee" href="https://z2m.pevecmax.uk" target="_blank" rel="noopener">
-        <span class="logo"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/zigbee.svg" alt=""></span>
-        <span class="label">Zigbee2MQTT</span>
-      </a>
+    <a class="card zigbee" href="https://z2m.pevecmax.uk" data-host="https://z2m.pevecmax.uk">
+      <img src="https://cdn.jsdelivr.net/gh/Templarian/MaterialDesign/svg/zigbee.svg" alt="">
+      <div class="info"><span>Zigbee 2 MQTT</span><small>Smart Devices</small></div>
+      <div class="status"></div>
+    </a>
 
-      <a class="app-card nas" href="https://nas.pevecmax.uk" target="_blank" rel="noopener">
-        <span class="logo"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/server.svg" alt=""></span>
-        <span class="label">Ugreen NAS</span>
-      </a>
+    <a class="card nas" href="https://nas.pevecmax.uk" data-host="https://nas.pevecmax.uk">
+      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/server.svg" alt="">
+      <div class="info"><span>Ugreen NAS</span><small>Storage</small></div>
+      <div class="status"></div>
+    </a>
 
-      <button class="app-card gpt" id="open-chat" type="button">
-        <span class="logo"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/openai.svg" alt=""></span>
-        <span class="label">ChatGPT</span>
-      </button>
-    </section>
+    <button class="card gpt" id="open-chat">
+      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/openai.svg" alt="">
+      <div class="info"><span>ChatGPT</span><small>KI-Assistent</small></div>
+    </button>
   </main>
 
-  <!-- Floating Chat-Button (immer sichtbar) -->
-  <button id="fab-chat" class="fab gpt" aria-label="Chat öffnen">
-    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/openai.svg" alt="">
-  </button>
-
-  <!-- Chat-Overlay (Glass-Morphism Panel) -->
-  <div id="chat-overlay" class="chat-overlay hidden">
-    <div class="chat-panel">
-      <div class="chat-header">
-        <div class="title"><span class="dot"></span> ChatGPT</div>
-        <button class="close" id="close-chat" aria-label="Schließen">✕</button>
-      </div>
-
-      <div id="chatlog" class="chat-log"></div>
-
-      <div class="chat-input">
-        <input id="prompt" type="text" placeholder="Frag mich etwas …" />
+  <!-- Chat Overlay -->
+  <div id="chat-overlay" class="overlay hidden">
+    <div class="panel">
+      <header class="chat-head">
+        <h2><span class="dot"></span> ChatGPT</h2>
+        <button id="close-chat">✕</button>
+      </header>
+      <div id="chatlog" class="log"></div>
+      <div class="row">
+        <input id="prompt" placeholder="Frag mich etwas …">
         <button id="send">Senden</button>
       </div>
     </div>
   </div>
 
-  <footer class="mx foot">powered by © pevecmax.uk</footer>
-  <script src="/app.js"></script>
+  <footer>© pevecmax.uk</footer>
+  <script src="app.js"></script>
 </body>
 </html>

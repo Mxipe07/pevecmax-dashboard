@@ -1,102 +1,86 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PEVEC MAX Dashboard</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PEVEC MAX · Dashboard</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="color-scheme" content="dark light">
+</head>
+<body>
 
-  <body>
-    <div id="particles"></div>
+  <!-- Hintergrund (sanfte Lichtverläufe + Partikel) -->
+  <canvas id="bg-particles" aria-hidden="true"></canvas>
+  <div class="bg-glow"></div>
 
-    <header class="nav-header">
-      <h1>PEVEC MAX Dashboard</h1>
-      <div class="controls">
-        <button id="themeToggle" aria-label="Theme umschalten">🌗</button>
-        <button id="cmdToggle" aria-label="Command Palette öffnen">⌘ K</button>
-      </div>
-    </header>
-
-    <main id="cards" class="services">
-      <!-- Home Assistant -->
-      <a class="card" href="https://haos.pevecmax.uk" target="_blank" data-service="haos">
-        <div class="icon-wrap">
-          <img src="https://cdn.jsdelivr.net/gh/Templarian/MaterialDesign-SVG/icons/home-assistant.svg" alt="Home Assistant" />
-          <span class="status-led" id="led-haos"></span>
-        </div>
-        <span>Home Assistant</span>
-      </a>
-
-      <!-- n8n -->
-      <a class="card" href="https://n8n.pevecmax.uk" target="_blank" data-service="n8n">
-        <div class="icon-wrap">
-          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/n8n.svg" alt="n8n" />
-          <span class="status-led" id="led-n8n"></span>
-        </div>
-        <span>n8n</span>
-      </a>
-
-      <!-- Paperless -->
-      <a class="card" href="https://paper.pevecmax.uk" target="_blank" data-service="paper">
-        <div class="icon-wrap">
-          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/nginx.svg" alt="Paperless NGINX" />
-          <span class="status-led" id="led-paper"></span>
-        </div>
-        <span>Paperless NGINX</span>
-      </a>
-
-      <!-- Zigbee2MQTT -->
-      <a class="card" href="https://z2m.pevecmax.uk" target="_blank" data-service="z2m">
-        <div class="icon-wrap">
-          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/zigbee.svg" alt="Zigbee 2 MQTT" />
-          <span class="status-led" id="led-z2m"></span>
-        </div>
-        <span>Zigbee 2 MQTT</span>
-      </a>
-
-      <!-- NAS -->
-      <a class="card" href="https://nas.pevecmax.uk" target="_blank" data-service="nas">
-        <div class="icon-wrap">
-          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/server.svg" alt="Ugreen NAS" />
-          <span class="status-led" id="led-nas"></span>
-        </div>
-        <span>Ugreen NAS</span>
-      </a>
-    </main>
-
-    <!-- Floating ChatGPT Button -->
-    <button id="fab-chat" class="chat-fab" aria-label="ChatGPT öffnen">
-      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/openai.svg" alt="ChatGPT" />
-    </button>
-
-    <!-- Chat Overlay -->
-    <div id="chatOverlay" class="chat-overlay hidden" role="dialog" aria-modal="true">
-      <div class="chat-window">
-        <header class="chat-header">
-          <h2>ChatGPT</h2>
-          <button id="chatClose" aria-label="Schließen">×</button>
-        </header>
-
-        <div id="chatBox" class="chat-box">
-          <div class="bubble ai">Wie kann ich helfen?</div>
-        </div>
-
-        <form id="chatForm" class="chat-form" autocomplete="off">
-          <input id="chatInput" placeholder="Nachricht eingeben …" />
-          <button type="submit">➤</button>
-        </form>
-      </div>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo-bubble"></span>
+      <h1>PEVEC MAX · <span class="thin">Dashboard</span></h1>
     </div>
 
-    <!-- Command Palette -->
-    <div id="cmdPalette" class="cmd hidden">
-      <div class="cmd-box">
-        <input id="cmdInput" placeholder="Dienst oder Befehl suchen …" autofocus />
-        <ul id="cmdList"></ul>
-      </div>
+    <div class="actions">
+      <button id="cmdk" class="chip" title="Befehlspalette (Strg/Cmd + K)">⌘K</button>
+      <button id="theme-toggle" class="chip" title="Hell/Dunkel">☀︎/☾</button>
     </div>
+  </header>
 
-    <script src="app.js"></script>
-  </body>
+  <main class="container">
+    <section class="grid" id="tiles">
+      <!-- Tiles werden von app.js gebaut -->
+    </section>
+  </main>
+
+  <!-- Schwebe-Button (Floating Action Button) für ChatGPT -->
+  <button id="fab" class="fab" aria-label="ChatGPT öffnen" title="ChatGPT">
+    <!-- OpenAI-Kreislogo als inline SVG -->
+    <svg viewBox="0 0 24 24" class="fab-icon" aria-hidden="true">
+      <path d="M12 2a5 5 0 0 1 4.58 2.86A5 5 0 0 1 20 10v.5a5 5 0 0 1-2.5 4.33V17a5 5 0 0 1-5 5h-.5a5 5 0 0 1-4.33-2.5H6.5A5 5 0 0 1 2 14.5V14a5 5 0 0 1 2.86-4.58A5 5 0 0 1 10 4h.5A5 5 0 0 1 12 2z" fill="currentColor" opacity=".14"/>
+      <circle cx="12" cy="12" r="9" fill="currentColor" opacity=".18"/>
+      <circle cx="12" cy="12" r="6.2" fill="none" stroke="currentColor" stroke-width="1.4"/>
+    </svg>
+  </button>
+
+  <!-- ChatGPT Overlay (Modal) -->
+  <div id="chat-overlay" class="overlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-labelledby="chat-title" aria-modal="true">
+      <div class="modal-top">
+        <button id="chat-close" class="close" aria-label="Schließen">×</button>
+        <div class="modal-tabs">
+          <span id="chat-title" class="tab active">ChatGPT</span>
+          <button id="chat-new" class="chip small" title="Neuer Chat">Neu</button>
+        </div>
+      </div>
+
+      <div class="modal-hero">
+        <div class="hero-title">Wie kann ich dir helfen?</div>
+      </div>
+
+      <div id="chat-messages" class="messages" aria-live="polite">
+        <!-- Chatblasen kommen hier per JS rein -->
+      </div>
+
+      <form id="chat-form" class="chatbar" autocomplete="off">
+        <input id="chat-input" class="chat-input" type="text" placeholder="Frag mich etwas…" />
+        <button class="chat-send" aria-label="Senden">
+          <span class="send-caret">➤</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Command Palette -->
+  <div id="palette" class="palette" aria-hidden="true">
+    <div class="palette-box">
+      <input id="palette-input" class="palette-input" placeholder="Tippe einen Befehl oder Dienst…" />
+      <ul id="palette-list" class="palette-list"></ul>
+    </div>
+  </div>
+
+  <footer class="foot">
+    © pevecmax.uk
+  </footer>
+
+  <script src="/app.js" type="module"></script>
+</body>
 </html>

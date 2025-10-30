@@ -4,27 +4,22 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Pevec Max · Services</title>
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
-  <!-- Hintergrund (lassen wir so; später feinjustieren) -->
+  <!-- bewegter, dezenter Hintergrund -->
   <canvas id="aurora" aria-hidden="true"></canvas>
 
   <header class="site-header">
-    <h1 class="site-title"><span>Pevec Max</span> · <span>Services</span></h1>
+    <h1 class="site-title">Pevec Max · <span>Services</span></h1>
   </header>
 
   <main id="cards" class="cards"></main>
 
-  <footer class="footer">
-    <small>© pevecmax.uk</small>
-  </footer>
+  <footer class="footer"><small>© pevecmax.uk</small></footer>
 
-  <!-- Theme-Toggle unten links, oben rechts bleibt frei fürs Profil -->
-  <button id="theme-toggle" class="fab" aria-label="Theme umschalten" title="Theme umschalten">
-    <span class="icon" aria-hidden="true">🌙</span>
-  </button>
+  <!-- Theme-Toggle (unten links) -->
+  <button id="theme-toggle" class="fab" aria-label="Theme umschalten"><span class="icon">🌙</span></button>
 
   <script src="./app.js" defer></script>
 </body>

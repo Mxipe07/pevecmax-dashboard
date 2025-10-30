@@ -1,163 +1,147 @@
-/* Reset / Base ----------------------------------------------------------- */
+/* ---------- Design-Token ---------- */
 :root{
   --glass-bg: rgba(255,255,255,0.06);
-  --glass-border: rgba(255,255,255,0.14);
-  --glass-highlight: rgba(255,255,255,0.10);
+  --glass-border: rgba(255,255,255,0.16);
+  --glass-hi: rgba(255,255,255,0.12);
   --text: #e9eaee;
   --text-dim: #b8bdc7;
-  --shadow: rgba(0,0,0,0.45);
-  --accent: #9a7cff; /* nur für kleine Glows, nicht als Flächenfarbe */
-  --radius-xl: 32px;
-  --radius-lg: 24px;
+  --shadow: rgba(0,0,0,0.46);
+  --radius-xxl: 44px;    /* runder als zuvor */
+  --radius-xl: 28px;
 }
 
-*{ box-sizing: border-box; }
-html,body{ height:100%; }
+*{box-sizing:border-box}
+html,body{height:100%}
 body{
   margin:0;
   color:var(--text);
   font: 500 16px/1.45 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
-  background:#0d0f13;
+  background:#0c0f14;
   overflow-x:hidden;
 }
 
-/* Hintergrund – zwei Ebenen aus weichen Gradienten, langsam animiert ---- */
-.bg{
-  position:fixed; inset:-20% -10% -10% -10%;
-  z-index:-2;
+/* ---------- animierter Background (3 Ebenen) ---------- */
+.bg.layer{
+  position:fixed; inset:-15% -10% -10% -10%; z-index:-3;
+  transform: translateZ(0);
+}
+.bg.base{
   background:
-    radial-gradient(40% 60% at 20% 20%, #1a1530 0%, rgba(26,21,48,0.0) 70%),
-    radial-gradient(35% 55% at 80% 30%, #2a1430 0%, rgba(42,20,48,0.0) 70%),
-    radial-gradient(50% 70% at 50% 80%, #14283a 0%, rgba(20,40,58,0.0) 70%);
+    radial-gradient(45% 60% at 20% 25%, #20173c 0%, transparent 70%),
+    radial-gradient(45% 60% at 80% 30%, #2a1533 0%, transparent 70%),
+    radial-gradient(55% 70% at 50% 85%, #122a3c 0%, transparent 75%);
+  animation: driftA 45s ease-in-out infinite;
   filter: saturate(1.1) contrast(1.02);
-  animation: drift 38s linear infinite;
 }
-.fx-layer{
-  mask-image: radial-gradient(80% 80% at 50% 50%, #000 60%, transparent 100%);
+.bg.glow{
+  z-index:-2; opacity:.55;
+  background:
+    radial-gradient(35% 40% at 15% 70%, #5a2a90 0%, transparent 70%),
+    radial-gradient(30% 35% at 85% 70%, #144e7a 0%, transparent 70%);
+  animation: driftB 60s linear infinite reverse;
 }
-.fx-layer-2{
-  z-index:-1;
-  opacity:0.55;
-  transform: scale(1.1);
-  animation: drift2 52s linear infinite reverse;
+.bg.particles{
+  z-index:-1; pointer-events:none;
+  background-image:
+    radial-gradient(2px 2px at 10% 20%, rgba(255,255,255,0.08) 99%, transparent),
+    radial-gradient(1.5px 1.5px at 30% 80%, rgba(255,255,255,0.07) 99%, transparent),
+    radial-gradient(2px 2px at 70% 35%, rgba(255,255,255,0.08) 99%, transparent),
+    radial-gradient(1.8px 1.8px at 90% 60%, rgba(255,255,255,0.06) 99%, transparent);
+  animation: driftC 120s linear infinite;
+  opacity:.25;
 }
-@keyframes drift{
-  0%{ transform: translate3d(0,0,0) scale(1.05); }
-  50%{ transform: translate3d(0,-2%,0) scale(1.08); }
-  100%{ transform: translate3d(0,0,0) scale(1.05); }
+@keyframes driftA{
+  0%{transform: translate3d(0,0,0) scale(1.05)}
+  50%{transform: translate3d(0,-1.5%,0) scale(1.08)}
+  100%{transform: translate3d(0,0,0) scale(1.05)}
 }
-@keyframes drift2{
-  0%{ transform: translate3d(0,0,0) scale(1.15) rotate(0.001deg); }
-  50%{ transform: translate3d(0,2%,0) scale(1.18) rotate(0.001deg); }
-  100%{ transform: translate3d(0,0,0) scale(1.15) rotate(0.001deg); }
+@keyframes driftB{
+  0%{transform: translate3d(0,0,0) scale(1.12)}
+  50%{transform: translate3d(0,1.5%,0) scale(1.16)}
+  100%{transform: translate3d(0,0,0) scale(1.12)}
+}
+@keyframes driftC{
+  0%{background-position: 0 0, 0 0, 0 0, 0 0}
+  100%{background-position: 400px 200px, -300px 150px, 250px -180px, -240px -160px}
 }
 
-/* Header ----------------------------------------------------------------- */
+/* ---------- Header ---------- */
 .page-head{
   position:sticky; top:0; padding:28px 20px 10px;
-  backdrop-filter: blur(8px) saturate(140%);
-  -webkit-backdrop-filter: blur(8px) saturate(140%);
-  background: linear-gradient(to bottom, rgba(10,12,16,0.65), rgba(10,12,16,0));
+  backdrop-filter: blur(8px) saturate(150%);
+  -webkit-backdrop-filter: blur(8px) saturate(150%);
+  background: linear-gradient(to bottom, rgba(8,10,14,0.6), rgba(8,10,14,0));
 }
 .page-head h1{
   margin:0 auto; max-width:1100px; padding:0 10px;
   font-size: clamp(28px, 3.6vw, 46px);
-  letter-spacing: 0.4px;
 }
-.page-head .muted{ color:var(--text-dim); }
+.muted{color:var(--text-dim)}
 
-/* Container -------------------------------------------------------------- */
+/* ---------- Layout ---------- */
 .container{
   max-width:1100px; margin:22px auto 80px; padding:0 14px 14px;
   display:grid; gap:20px;
 }
 
-/* Karte (visionOS-Glas) -------------------------------------------------- */
+/* ---------- Karte (Vision-Glas) ---------- */
+a.card{ text-decoration:none; color:inherit }
+a.card:visited{ color:inherit }
+
 .card{
-  position:relative;
-  display:flex; align-items:center; gap:18px;
-  padding:20px 22px;
-  border-radius: var(--radius-xl);
+  position:relative; display:flex; align-items:center; gap:18px;
+  padding:22px 24px;
+  border-radius: var(--radius-xxl);
   background: var(--glass-bg);
-  border:1px solid var(--glass-border);
+  border: 1px solid var(--glass-border);
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.06),
-    inset 0 12px 32px var(--glass-highlight),
-    0 10px 40px var(--shadow);
+    inset 0 1px 0 rgba(255,255,255,.06),
+    inset 0 18px 44px var(--glass-hi),
+    0 12px 46px var(--shadow);
   backdrop-filter: blur(22px) saturate(180%);
   -webkit-backdrop-filter: blur(22px) saturate(180%);
-  transform: translateZ(0);
   transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
 }
 .card::after{
-  /* inneres highlight oben links */
-  content:""; pointer-events:none;
-  position:absolute; inset:1px 1px auto auto; height:50%;
-  border-top-right-radius: calc(var(--radius-xl) - 1px);
-  background: linear-gradient(135deg, rgba(255,255,255,0.16), rgba(255,255,255,0));
-  mix-blend-mode: screen; opacity:.6; mask: linear-gradient(#000 30%, transparent 90%);
+  content:""; position:absolute; inset:1px 1px auto auto; height:55%;
+  border-top-right-radius: calc(var(--radius-xxl) - 1px);
+  background: linear-gradient(135deg, rgba(255,255,255,.16), rgba(255,255,255,0));
+  mix-blend-mode:screen; opacity:.55; mask: linear-gradient(#000 30%, transparent 90%);
 }
-.card:hover{
-  transform: translateY(-2px);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.07),
-    inset 0 14px 36px rgba(255,255,255,0.12),
-    0 16px 56px rgba(0,0,0,0.55);
-  border-color: rgba(255,255,255,0.18);
-}
-.card:active{ transform: translateY(0); }
+.card:hover{ transform: translateY(-2px); border-color: rgba(255,255,255,.2) }
 
-/* Iconblase -------------------------------------------------------------- */
-.card .icon-wrap{
-  flex:0 0 auto; width:68px; height:68px; border-radius:22px;
+/* Iconfeld */
+.icon-wrap{
+  width:74px; height:74px; border-radius:28px; flex:0 0 auto;
   display:grid; place-items:center;
   background: rgba(255,255,255,0.06);
   border:1px solid rgba(255,255,255,0.12);
-  box-shadow: inset 0 6px 18px rgba(255,255,255,0.08);
+  box-shadow: inset 0 8px 22px rgba(255,255,255,0.09);
 }
-.card iconify-icon{
-  font-size:32px; color:#e8eaf2;
-  filter: drop-shadow(0 2px 10px rgba(0,0,0,0.35));
+iconify-icon{ font-size:34px; color:#eef1f9; filter: drop-shadow(0 2px 10px rgba(0,0,0,.35)) }
+
+/* Text */
+.meta{ display:flex; flex-direction:column; gap:8px; min-width:0 }
+.title{ font-size: clamp(19px, 2.5vw, 25px); font-weight:700 }
+.row{ display:flex; align-items:center; gap:10px; color:var(--text-dim); font-size:15px }
+
+/* Statuspunkt */
+.dot{ width:11px; height:11px; border-radius:99px; display:inline-block; box-shadow: 0 0 0 2px rgba(0,0,0,.25), 0 0 10px currentColor }
+.dot.ok{ background:#34d399; color:#34d399 }
+.dot.warn{ background:#f59e0b; color:#f59e0b }
+.dot.off{ background:#6b7280; color:#6b7280 }
+.dot.check{ background:#60a5fa; color:#60a5fa; animation:pulse 1.2s ease-in-out infinite }
+@keyframes pulse{
+  0%,100%{ box-shadow: 0 0 0 2px rgba(0,0,0,.25), 0 0 6px currentColor }
+  50%{ box-shadow: 0 0 0 2px rgba(0,0,0,.25), 0 0 16px currentColor }
 }
 
-/* Textblock -------------------------------------------------------------- */
-.card .meta{
-  display:flex; flex-direction:column; gap:6px; min-width:0;
-}
-.card .title{
-  font-size: clamp(18px, 2.4vw, 24px);
-  font-weight: 700; letter-spacing: .2px;
-}
-.card .row{
-  display:flex; align-items:center; gap:10px; color:var(--text-dim);
-  font-size:15px;
-}
+/* Footer */
+.footer{ text-align:center; color:var(--text-dim); padding:40px 16px 60px }
 
-/* Statuspunkt (INNEN, nicht als Rand) ----------------------------------- */
-.dot{
-  width:10px; height:10px; border-radius:99px; display:inline-block;
-  box-shadow: 0 0 0 2px rgba(0,0,0,0.25), 0 0 10px currentColor;
-}
-.dot.ok{ color:#34d399; background:#34d399; }         /* grün */
-.dot.warn{ color:#f59e0b; background:#f59e0b; }       /* orange */
-.dot.off{ color:#6b7280; background:#6b7280; }        /* grau */
-
-/* Footer ----------------------------------------------------------------- */
-.footer{
-  text-align:center; color:var(--text-dim);
-  padding:40px 16px 60px;
-}
-
-/* Responsiv -------------------------------------------------------------- */
-@media (min-width: 860px){
-  .container{ grid-template-columns: 1fr; }
-}
-@media (hover: hover){
-  .card:hover .icon-wrap{ border-color: rgba(255,255,255,0.18); }
-}
-
-/* Barrierefreiheit: Reduziere Bewegung ---------------------------------- */
+/* Motion-Reduktion */
 @media (prefers-reduced-motion: reduce){
-  .bg, .fx-layer-2{ animation: none; }
-  .card{ transition: border-color .15s ease; }
+  .bg.layer{ animation:none }
+  .dot.check{ animation:none }
+  .card{ transition: border-color .15s ease }
 }

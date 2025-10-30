@@ -1,147 +1,146 @@
-/* ---------- Design-Token ---------- */
+/* =======================
+   Vision Glass · Tokens
+   ======================= */
 :root{
-  --glass-bg: rgba(255,255,255,0.06);
-  --glass-border: rgba(255,255,255,0.16);
-  --glass-hi: rgba(255,255,255,0.12);
   --text: #e9eaee;
-  --text-dim: #b8bdc7;
-  --shadow: rgba(0,0,0,0.46);
-  --radius-xxl: 44px;    /* runder als zuvor */
-  --radius-xl: 28px;
+  --text-dim:#b8bdc7;
+
+  --glass-bg: rgba(255,255,255,0.055);
+  --glass-border: rgba(255,255,255,0.14);
+  --glass-hi: rgba(255,255,255,0.10);
+  --shadow: rgba(0,0,0,0.45);
+
+  --radius-xxl: 44px;   /* schöne Rundung */
+  --radius-xl: 26px;
+
+  --pad-y: 16px;        /* kompakter als vorher */
+  --pad-x: 18px;
+  --icon-size: 60px;    /* kompakter */
+  --title-size: clamp(18px, 2.1vw, 22px);
 }
 
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
-  margin:0;
-  color:var(--text);
+  margin:0; color:var(--text);
   font: 500 16px/1.45 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
-  background:#0c0f14;
+  background:#0b0e13;
   overflow-x:hidden;
 }
 
-/* ---------- animierter Background (3 Ebenen) ---------- */
+/* ===== Background: clean & dezent bewegt ===== */
 .bg.layer{
-  position:fixed; inset:-15% -10% -10% -10%; z-index:-3;
+  position:fixed; inset:-12% -8% -8% -8%; z-index:-2;
   transform: translateZ(0);
 }
 .bg.base{
   background:
-    radial-gradient(45% 60% at 20% 25%, #20173c 0%, transparent 70%),
-    radial-gradient(45% 60% at 80% 30%, #2a1533 0%, transparent 70%),
-    radial-gradient(55% 70% at 50% 85%, #122a3c 0%, transparent 75%);
-  animation: driftA 45s ease-in-out infinite;
-  filter: saturate(1.1) contrast(1.02);
+    radial-gradient(45% 55% at 18% 22%, #171725 0%, transparent 70%),
+    radial-gradient(50% 60% at 82% 28%, #151b27 0%, transparent 70%),
+    radial-gradient(60% 65% at 50% 90%, #0f2130 0%, transparent 75%);
+  animation: driftA 52s ease-in-out infinite;
+  filter: saturate(1.05) contrast(1.03);
 }
 .bg.glow{
-  z-index:-2; opacity:.55;
+  z-index:-1; opacity:.45;
   background:
-    radial-gradient(35% 40% at 15% 70%, #5a2a90 0%, transparent 70%),
-    radial-gradient(30% 35% at 85% 70%, #144e7a 0%, transparent 70%);
-  animation: driftB 60s linear infinite reverse;
-}
-.bg.particles{
-  z-index:-1; pointer-events:none;
-  background-image:
-    radial-gradient(2px 2px at 10% 20%, rgba(255,255,255,0.08) 99%, transparent),
-    radial-gradient(1.5px 1.5px at 30% 80%, rgba(255,255,255,0.07) 99%, transparent),
-    radial-gradient(2px 2px at 70% 35%, rgba(255,255,255,0.08) 99%, transparent),
-    radial-gradient(1.8px 1.8px at 90% 60%, rgba(255,255,255,0.06) 99%, transparent);
-  animation: driftC 120s linear infinite;
-  opacity:.25;
+    radial-gradient(35% 40% at 15% 72%, #572f8a 0%, transparent 70%),
+    radial-gradient(30% 35% at 86% 72%, #1b4a6c 0%, transparent 70%);
+  animation: driftB 70s linear infinite reverse;
 }
 @keyframes driftA{
-  0%{transform: translate3d(0,0,0) scale(1.05)}
-  50%{transform: translate3d(0,-1.5%,0) scale(1.08)}
-  100%{transform: translate3d(0,0,0) scale(1.05)}
+  0%{transform: translate3d(0,0,0) scale(1.04)}
+  50%{transform: translate3d(0,-1.2%,0) scale(1.07)}
+  100%{transform: translate3d(0,0,0) scale(1.04)}
 }
 @keyframes driftB{
-  0%{transform: translate3d(0,0,0) scale(1.12)}
-  50%{transform: translate3d(0,1.5%,0) scale(1.16)}
-  100%{transform: translate3d(0,0,0) scale(1.12)}
-}
-@keyframes driftC{
-  0%{background-position: 0 0, 0 0, 0 0, 0 0}
-  100%{background-position: 400px 200px, -300px 150px, 250px -180px, -240px -160px}
+  0%{transform: translate3d(0,0,0) scale(1.10)}
+  50%{transform: translate3d(0,1.2%,0) scale(1.13)}
+  100%{transform: translate3d(0,0,0) scale(1.10)}
 }
 
-/* ---------- Header ---------- */
+/* ===== Header ===== */
 .page-head{
-  position:sticky; top:0; padding:28px 20px 10px;
+  position:sticky; top:0; padding:22px 16px 8px;
   backdrop-filter: blur(8px) saturate(150%);
   -webkit-backdrop-filter: blur(8px) saturate(150%);
-  background: linear-gradient(to bottom, rgba(8,10,14,0.6), rgba(8,10,14,0));
+  background: linear-gradient(to bottom, rgba(8,10,14,0.55), rgba(8,10,14,0));
 }
 .page-head h1{
-  margin:0 auto; max-width:1100px; padding:0 10px;
-  font-size: clamp(28px, 3.6vw, 46px);
+  margin:0 auto; max-width:980px; padding:0 8px;
+  font-size: clamp(26px, 3.4vw, 42px);
 }
 .muted{color:var(--text-dim)}
 
-/* ---------- Layout ---------- */
+/* ===== Layout ===== */
 .container{
-  max-width:1100px; margin:22px auto 80px; padding:0 14px 14px;
-  display:grid; gap:20px;
+  max-width:980px; margin:18px auto 64px; padding:0 12px 12px;
+  display:grid; gap:14px;
 }
 
-/* ---------- Karte (Vision-Glas) ---------- */
-a.card{ text-decoration:none; color:inherit }
-a.card:visited{ color:inherit }
+/* ===== Karte (schlanker) ===== */
+a.card{text-decoration:none; color:inherit}
+a.card:visited{color:inherit}
 
 .card{
-  position:relative; display:flex; align-items:center; gap:18px;
-  padding:22px 24px;
+  position:relative; display:flex; align-items:center; gap:14px;
+  padding: var(--pad-y) var(--pad-x);
   border-radius: var(--radius-xxl);
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,.06),
-    inset 0 18px 44px var(--glass-hi),
-    0 12px 46px var(--shadow);
+    inset 0 14px 36px var(--glass-hi),
+    0 10px 38px var(--shadow);
   backdrop-filter: blur(22px) saturate(180%);
   -webkit-backdrop-filter: blur(22px) saturate(180%);
-  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+  min-height: 82px;   /* kompakt */
 }
-.card::after{
-  content:""; position:absolute; inset:1px 1px auto auto; height:55%;
-  border-top-right-radius: calc(var(--radius-xxl) - 1px);
-  background: linear-gradient(135deg, rgba(255,255,255,.16), rgba(255,255,255,0));
-  mix-blend-mode:screen; opacity:.55; mask: linear-gradient(#000 30%, transparent 90%);
-}
-.card:hover{ transform: translateY(-2px); border-color: rgba(255,255,255,.2) }
+.card:hover{ transform: translateY(-1.5px); border-color: rgba(255,255,255,.20) }
 
-/* Iconfeld */
+/* Icon-Blase kompakter */
 .icon-wrap{
-  width:74px; height:74px; border-radius:28px; flex:0 0 auto;
+  width: var(--icon-size); height: var(--icon-size); border-radius: 24px; flex:0 0 auto;
   display:grid; place-items:center;
   background: rgba(255,255,255,0.06);
-  border:1px solid rgba(255,255,255,0.12);
-  box-shadow: inset 0 8px 22px rgba(255,255,255,0.09);
+  border:1px solid rgba(255,255,255,0.11);
+  box-shadow: inset 0 8px 20px rgba(255,255,255,0.08);
 }
-iconify-icon{ font-size:34px; color:#eef1f9; filter: drop-shadow(0 2px 10px rgba(0,0,0,.35)) }
+iconify-icon{ font-size: 30px; color:#eef1f9 }
 
-/* Text */
-.meta{ display:flex; flex-direction:column; gap:8px; min-width:0 }
-.title{ font-size: clamp(19px, 2.5vw, 25px); font-weight:700 }
-.row{ display:flex; align-items:center; gap:10px; color:var(--text-dim); font-size:15px }
+.meta{ display:flex; flex-direction:column; gap:6px; min-width:0 }
+.title{ font-size: var(--title-size); font-weight:700; line-height:1.15 }
+.row{ display:flex; align-items:center; gap:10px; color:var(--text-dim); font-size:14.5px }
 
-/* Statuspunkt */
-.dot{ width:11px; height:11px; border-radius:99px; display:inline-block; box-shadow: 0 0 0 2px rgba(0,0,0,.25), 0 0 10px currentColor }
+/* Statuspunkte */
+.dot{ width:10px; height:10px; border-radius:99px; display:inline-block; box-shadow: 0 0 0 2px rgba(0,0,0,.28), 0 0 10px currentColor }
 .dot.ok{ background:#34d399; color:#34d399 }
 .dot.warn{ background:#f59e0b; color:#f59e0b }
 .dot.off{ background:#6b7280; color:#6b7280 }
 .dot.check{ background:#60a5fa; color:#60a5fa; animation:pulse 1.2s ease-in-out infinite }
 @keyframes pulse{
-  0%,100%{ box-shadow: 0 0 0 2px rgba(0,0,0,.25), 0 0 6px currentColor }
-  50%{ box-shadow: 0 0 0 2px rgba(0,0,0,.25), 0 0 16px currentColor }
+  0%,100%{ box-shadow: 0 0 0 2px rgba(0,0,0,.28), 0 0 6px currentColor }
+  50%{ box-shadow: 0 0 0 2px rgba(0,0,0,.28), 0 0 14px currentColor }
 }
 
 /* Footer */
-.footer{ text-align:center; color:var(--text-dim); padding:40px 16px 60px }
+.footer{ text-align:center; color:var(--text-dim); padding:36px 12px 56px }
 
 /* Motion-Reduktion */
 @media (prefers-reduced-motion: reduce){
   .bg.layer{ animation:none }
   .dot.check{ animation:none }
   .card{ transition: border-color .15s ease }
+}
+
+/* Kleinere Geräte: noch kompakter */
+@media (max-width:420px){
+  :root{
+    --pad-y: 14px;
+    --pad-x: 16px;
+    --icon-size: 56px;
+    --title-size: 18px;
+  }
+  .container{ gap:12px }
 }

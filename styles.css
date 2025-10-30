@@ -1,202 +1,34 @@
-/* === Basis === */
-body {
-  margin: 0;
-  font-family: "Inter", sans-serif;
-  background: #0a0a0a;
-  color: #fff;
-}
+/* Hintergrund & Grid */
+body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:#0a0a0a;color:#fff;text-align:center}
+h1{margin:28px 0 6px;font-size:clamp(22px,3.6vw,32px)}
+.services{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:20px;max-width:900px;margin:0 auto;padding:24px}
+.card{display:flex;flex-direction:column;align-items:center;gap:10px;padding:18px 14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.22);border-radius:22px;backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);text-decoration:none;color:#fff;box-shadow:0 10px 26px rgba(0,0,0,.35);transition:transform .18s ease,box-shadow .2s ease}
+.card:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(0,0,0,.45)}
+.card img{width:40px;height:40px;filter:invert(1) brightness(1.2)}
+.card span{font-weight:600}
 
-.background {
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(circle at 20% 30%, #2d1b4e, transparent 60%),
-              radial-gradient(circle at 80% 70%, #401a2e, transparent 60%);
-  animation: move 25s ease-in-out infinite alternate;
-  z-index: -1;
-}
-@keyframes move {
-  from { background-position: 0% 0%; }
-  to { background-position: 100% 100%; }
-}
+/* FAB */
+.chat-fab{position:fixed;right:18px;bottom:18px;width:64px;height:64px;border-radius:999px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);backdrop-filter:blur(20px);display:grid;place-items:center;box-shadow:0 14px 32px rgba(0,0,0,.55);cursor:pointer;transition:transform .18s}
+.chat-fab:hover{transform:scale(1.06)}
+.chat-fab img{width:28px;height:28px;filter:invert(1)}
 
-h1 {
-  text-align: center;
-  margin-top: 40px;
-  font-size: 1.8rem;
-}
+/* Overlay & Header */
+.hidden{display:none}
+.cgpt{position:fixed;inset:0;background:#000;color:#eee;display:flex;flex-direction:column;z-index:1000;animation:fade .25s}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.cgpt-header{display:flex;align-items:center;justify-content:space-between;padding:12px 14px}
+.cgpt-icon{all:unset;cursor:pointer;color:#ddd;width:40px;height:40px;display:grid;place-items:center;background:#161616;border:1px solid #2a2a2a;border-radius:999px}
+.cgpt-title{font-weight:600;font-size:16px;padding:8px 14px;border-radius:999px;background:#161616;border:1px solid #2a2a2a}
+.cgpt-hero{text-align:center;margin:20vh 0 6px;font-size:clamp(22px,6vw,40px);color:#d9d9d9}
 
-/* === Grid mit Kacheln === */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 24px;
-  padding: 40px;
-  max-width: 900px;
-  margin: auto;
-}
+/* Log & Bubbles */
+.cgpt-log{flex:1;overflow:auto;display:flex;flex-direction:column;gap:10px;padding:0 14px 10px}
+.bubble{max-width:min(84ch,92%);padding:12px 14px;border-radius:18px;line-height:1.55;box-shadow:0 6px 14px rgba(0,0,0,.25)}
+.bubble.you{align-self:flex-end;background:#1e1e1e;border:1px solid #2b2b2b;color:#fafafa;border-bottom-right-radius:8px}
+.bubble.ai{align-self:flex-start;background:#101114;border:1px solid #26282d;color:#e9eef5;border-bottom-left-radius:8px}
 
-.card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 24px;
-  padding: 24px;
-  text-decoration: none;
-  color: #fff;
-  backdrop-filter: blur(22px);
-  transition: transform 0.2s ease;
-}
-.card:hover {
-  transform: translateY(-5px);
-}
-
-.card img {
-  width: 40px;
-  height: 40px;
-  margin-bottom: 10px;
-  filter: invert(1) brightness(1.2);
-}
-
-footer {
-  text-align: center;
-  font-size: 0.85rem;
-  color: #aaa;
-  margin-bottom: 24px;
-}
-
-/* === Floating Chat Button === */
-.chat-fab {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  border: none;
-  cursor: pointer;
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(22px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-}
-.chat-fab:hover {
-  transform: scale(1.08);
-}
-.chat-fab img {
-  width: 28px;
-  height: 28px;
-  filter: invert(1);
-}
-
-/* === Overlay === */
-.chat-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(20px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 99;
-  animation: fadeIn 0.4s ease;
-}
-.hidden {
-  display: none;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* === Chatbox === */
-.chatgpt-box {
-  width: min(700px, 90%);
-  height: min(80vh, 700px);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background: rgba(30, 30, 30, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 20px;
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4);
-  padding: 20px;
-  text-align: center;
-  animation: popup 0.4s ease;
-}
-@keyframes popup {
-  from {
-    opacity: 0;
-    transform: translateY(15px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-.chatgpt-header {
-  display: flex;
-  justify-content: space-between;
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-}
-.chatgpt-header button {
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 1.4rem;
-  cursor: pointer;
-}
-
-.chatgpt-content h2 {
-  font-weight: 500;
-  opacity: 0.8;
-}
-
-.chat-messages {
-  flex: 1;
-  overflow-y: auto;
-  text-align: left;
-  margin-top: 20px;
-  padding: 10px;
-}
-
-/* === Eingabefeld === */
-.chatgpt-input {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 20px;
-}
-.chatgpt-input input {
-  flex: 1;
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
-  border-radius: 14px;
-  padding: 10px;
-  color: white;
-}
-.chatgpt-input button {
-  background: rgba(255, 255, 255, 0.15);
-  border: none;
-  border-radius: 14px;
-  color: white;
-  padding: 10px 14px;
-  cursor: pointer;
-  font-size: 1rem;
-}
-.chatgpt-input button:hover {
-  background: rgba(255, 255, 255, 0.25);
-}
+/* Eingabe */
+.cgpt-input{display:flex;gap:10px;padding:12px 14px;border-top:1px solid #1d1d1d}
+#cgpt-prompt{flex:1;height:46px;padding:0 16px;color:#eee;background:#151515;border:1px solid #2a2a2a;border-radius:999px;outline:none}
+.cgpt-send{all:unset;cursor:pointer;width:46px;height:46px;display:grid;place-items:center;background:#00e1a1;color:#111;border-radius:999px;font-weight:700}
+.cgpt-send:disabled{opacity:.45;cursor:not-allowed}

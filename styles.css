@@ -1,34 +1,376 @@
-/* Hintergrund & Grid */
-body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:#0a0a0a;color:#fff;text-align:center}
-h1{margin:28px 0 6px;font-size:clamp(22px,3.6vw,32px)}
-.services{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:20px;max-width:900px;margin:0 auto;padding:24px}
-.card{display:flex;flex-direction:column;align-items:center;gap:10px;padding:18px 14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.22);border-radius:22px;backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);text-decoration:none;color:#fff;box-shadow:0 10px 26px rgba(0,0,0,.35);transition:transform .18s ease,box-shadow .2s ease}
-.card:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(0,0,0,.45)}
-.card img{width:40px;height:40px;filter:invert(1) brightness(1.2)}
-.card span{font-weight:600}
+/* ==============================
+   RESET & ROOT
+============================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-/* FAB */
-.chat-fab{position:fixed;right:18px;bottom:18px;width:64px;height:64px;border-radius:999px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);backdrop-filter:blur(20px);display:grid;place-items:center;box-shadow:0 14px 32px rgba(0,0,0,.55);cursor:pointer;transition:transform .18s}
-.chat-fab:hover{transform:scale(1.06)}
-.chat-fab img{width:28px;height:28px;filter:invert(1)}
+html, body {
+  height: 100%;
+  font-family: 'Inter', system-ui, sans-serif;
+  overflow-x: hidden;
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.5s ease, color 0.5s ease;
+}
 
-/* Overlay & Header */
-.hidden{display:none}
-.cgpt{position:fixed;inset:0;background:#000;color:#eee;display:flex;flex-direction:column;z-index:1000;animation:fade .25s}
-@keyframes fade{from{opacity:0}to{opacity:1}}
-.cgpt-header{display:flex;align-items:center;justify-content:space-between;padding:12px 14px}
-.cgpt-icon{all:unset;cursor:pointer;color:#ddd;width:40px;height:40px;display:grid;place-items:center;background:#161616;border:1px solid #2a2a2a;border-radius:999px}
-.cgpt-title{font-weight:600;font-size:16px;padding:8px 14px;border-radius:999px;background:#161616;border:1px solid #2a2a2a}
-.cgpt-hero{text-align:center;margin:20vh 0 6px;font-size:clamp(22px,6vw,40px);color:#d9d9d9}
+:root {
+  --accent: #8e7dff;
+  --bg: #0a0a0f;
+  --text: #f3f3f3;
+  --card-bg: rgba(255,255,255,0.07);
+  --border: rgba(255,255,255,0.15);
+  --blur: 22px;
+}
 
-/* Log & Bubbles */
-.cgpt-log{flex:1;overflow:auto;display:flex;flex-direction:column;gap:10px;padding:0 14px 10px}
-.bubble{max-width:min(84ch,92%);padding:12px 14px;border-radius:18px;line-height:1.55;box-shadow:0 6px 14px rgba(0,0,0,.25)}
-.bubble.you{align-self:flex-end;background:#1e1e1e;border:1px solid #2b2b2b;color:#fafafa;border-bottom-right-radius:8px}
-.bubble.ai{align-self:flex-start;background:#101114;border:1px solid #26282d;color:#e9eef5;border-bottom-left-radius:8px}
+body.light {
+  --bg: #f5f5f7;
+  --text: #1c1c1e;
+  --card-bg: rgba(255,255,255,0.4);
+  --border: rgba(0,0,0,0.1);
+}
 
-/* Eingabe */
-.cgpt-input{display:flex;gap:10px;padding:12px 14px;border-top:1px solid #1d1d1d}
-#cgpt-prompt{flex:1;height:46px;padding:0 16px;color:#eee;background:#151515;border:1px solid #2a2a2a;border-radius:999px;outline:none}
-.cgpt-send{all:unset;cursor:pointer;width:46px;height:46px;display:grid;place-items:center;background:#00e1a1;color:#111;border-radius:999px;font-weight:700}
-.cgpt-send:disabled{opacity:.45;cursor:not-allowed}
+/* ==============================
+   BACKGROUND PARTICLES
+============================== */
+#particles {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 70% 30%, rgba(142,125,255,0.15), transparent 70%),
+              radial-gradient(circle at 30% 70%, rgba(0,200,255,0.12), transparent 70%),
+              radial-gradient(circle at 90% 80%, rgba(255,255,255,0.08), transparent 70%);
+  z-index: 0;
+  filter: blur(40px);
+  animation: shift 20s infinite alternate ease-in-out;
+}
+
+@keyframes shift {
+  0% { transform: translate(0,0) scale(1); }
+  100% { transform: translate(-4%,3%) scale(1.1); }
+}
+
+/* ==============================
+   HEADER
+============================== */
+.nav-header {
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(var(--blur)) saturate(180%);
+  background: rgba(255,255,255,0.05);
+  border-bottom: 1px solid var(--border);
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+}
+
+.nav-header h1 {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.controls button {
+  margin-left: 0.6rem;
+  border: none;
+  background: var(--card-bg);
+  color: var(--text);
+  font-size: 1rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.controls button:hover {
+  background: rgba(255,255,255,0.12);
+}
+
+/* ==============================
+   SERVICE CARDS
+============================== */
+.services {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.8rem 1rem;
+  text-decoration: none;
+  color: var(--text);
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  backdrop-filter: blur(var(--blur)) saturate(180%);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  will-change: transform;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+}
+
+.icon-wrap {
+  position: relative;
+  margin-bottom: 0.8rem;
+}
+
+.icon-wrap img {
+  width: 50px;
+  height: 50px;
+  filter: invert(1);
+  opacity: 0.9;
+  transition: opacity 0.3s;
+}
+
+.card:hover img {
+  opacity: 1;
+}
+
+/* Status LEDs */
+.status-led {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  box-shadow: 0 0 8px currentColor;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+.status-led.ok { background: #3cff94; color: #3cff94; }
+.status-led.warn { background: #ffc94d; color: #ffc94d; }
+.status-led.fail { background: #7d7d7d; color: #7d7d7d; }
+
+/* ==============================
+   CHAT FLOATING BUTTON
+============================== */
+.chat-fab {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 68px;
+  height: 68px;
+  border-radius: 999px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.45);
+  cursor: pointer;
+  z-index: 20;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.chat-fab:hover {
+  transform: scale(1.05);
+  box-shadow: 0 14px 36px rgba(0,0,0,0.55);
+}
+
+.chat-fab img {
+  width: 34px;
+  height: 34px;
+  filter: invert(1);
+}
+
+/* ==============================
+   CHAT OVERLAY
+============================== */
+.chat-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(16px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.chat-window {
+  width: 90%;
+  max-width: 460px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  backdrop-filter: blur(var(--blur));
+  animation: pop 0.35s ease;
+}
+
+@keyframes pop {
+  from { transform: scale(0.92) translateY(10px); opacity: 0; }
+  to { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.chat-header {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  font-weight: 600;
+  background: rgba(255,255,255,0.05);
+}
+
+.chat-header button {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.chat-box {
+  flex: 1;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  overflow-y: auto;
+}
+
+.bubble {
+  padding: 0.8rem 1rem;
+  border-radius: 18px;
+  max-width: 85%;
+  line-height: 1.5;
+  word-wrap: break-word;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.25);
+  animation: fadein 0.25s ease;
+}
+
+@keyframes fadein {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.bubble.you {
+  align-self: flex-end;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.bubble.ai {
+  align-self: flex-start;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+.chat-form {
+  display: flex;
+  border-top: 1px solid var(--border);
+  padding: 0.8rem;
+  background: rgba(255,255,255,0.05);
+}
+
+.chat-form input {
+  flex: 1;
+  border: none;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.12);
+  color: var(--text);
+  padding: 0.6rem 0.9rem;
+  outline: none;
+}
+
+.chat-form button {
+  margin-left: 0.6rem;
+  background: var(--accent);
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 12px;
+  width: 48px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.chat-form button:hover {
+  transform: scale(1.05);
+}
+
+/* ==============================
+   COMMAND PALETTE
+============================== */
+.cmd {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(14px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 10%;
+  z-index: 120;
+}
+
+.cmd-box {
+  width: 90%;
+  max-width: 520px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  animation: pop 0.3s ease;
+}
+
+.cmd-box input {
+  width: 100%;
+  border: none;
+  padding: 1rem;
+  font-size: 1.1rem;
+  background: transparent;
+  color: var(--text);
+  outline: none;
+}
+
+.cmd-box ul {
+  list-style: none;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.cmd-box li {
+  padding: 0.8rem 1rem;
+  border-top: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.cmd-box li:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+/* ==============================
+   SCROLLBAR & MISC
+============================== */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.2);
+  border-radius: 10px;
+}

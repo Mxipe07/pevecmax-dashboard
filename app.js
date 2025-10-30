@@ -1,68 +1,38 @@
-const fab = document.getElementById("fab");
-const overlay = document.getElementById("chat-overlay");
-const closeBtn = document.getElementById("chat-close");
-const form = document.getElementById("chat-form");
-const input = document.getElementById("chat-input");
-const messages = document.getElementById("chat-messages");
-
-let open = false;
-
-fab.addEventListener("click", () => {
-  overlay.classList.add("open");
-  open = true;
-  input.focus();
-});
-
-closeBtn.addEventListener("click", () => {
-  overlay.classList.remove("open");
-  open = false;
-});
-
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && open) {
-    overlay.classList.remove("open");
-    open = false;
+// Ping einer Ziel-URL. Viele Dienste blocken HEAD → GET no-cors.
+// Ergebnis: 'green' erreichbar, 'orange' (Fallback via /api/health), 'gray' tot.
+async function ping(url, ms=2500){
+  try{
+    const ctl = new AbortController();
+    const t = setTimeout(()=>ctl.abort(), ms);
+    await fetch(url, { mode:'no-cors', method:'GET', signal: ctl.signal, cache:'no-store' });
+    clearTimeout(t);
+    return 'green';
+  }catch(e){
+    try{
+      const res = await fetch('/api/health', {cache:'no-store'});
+      return res.ok ? 'orange' : 'gray';
+    }catch{ return 'gray'; }
   }
-});
-
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const text = input.value.trim();
-  if (!text) return;
-
-  addBubble("user", text);
-  input.value = "";
-  const node = addBubble("assistant", "…");
-
-  const resp = await fetch("/api/chat-stream", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ message: text })
-  });
-
-  if (!resp.ok || !resp.body) {
-    node.textContent = "Fehler beim Laden.";
-    return;
-  }
-
-  const reader = resp.body.getReader();
-  const decoder = new TextDecoder();
-  let acc = "";
-
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    acc += decoder.decode(value, { stream: true });
-    node.textContent = acc;
-    messages.scrollTop = messages.scrollHeight;
-  }
-});
-
-function addBubble(role, text) {
-  const b = document.createElement("div");
-  b.className = `bubble ${role}`;
-  b.textContent = text;
-  messages.appendChild(b);
-  messages.scrollTop = messages.scrollHeight;
-  return b;
 }
+
+function setDot(el, state){
+  const map = {
+    green: 'radial-gradient(circle at 30% 30%, #3cff8f 0%, #11b25b 60%)',
+    orange: 'radial-gradient(circle at 30% 30%, #ffd38b 0%, #ff8f3c 60%)',
+    gray: 'radial-gradient(circle at 30% 30%, #c7c7c7 0%, #7f7f7f 60%)'
+  };
+  el.style.background = map[state] || map.gray;
+  el.style.boxShadow = '0 0 0 2px rgba(0,0,0,.45), 0 0 12px rgba(255,255,255,.12) inset';
+}
+
+// Initial + gelegentlich neu prüfen
+async function initDots(){
+  const dots = document.querySelectorAll('.dot');
+  for (const dot of dots){
+    const url = dot.getAttribute('data-url');
+    const state = await ping(url);
+    setDot(dot, state);
+  }
+}
+initDots();
+setInterval(initDots, 60_000); // jede Minute neu

@@ -1,168 +1,122 @@
-/* =======================
-   Services
-   ======================= */
-const SERVICES = [
-  { name:"Home Assistant",  url:"https://haos.pevecmax.uk",     icon:"mdi:home-assistant",       status:"ok"  },
-  { name:"n8n",             url:"https://n8n.pevecmax.uk",      icon:"simple-icons:n8n",         status:"ok"  },
-  { name:"Paperless NGINX", url:"https://paper.pevecmax.uk",    icon:"simple-icons:nginx",       status:"ok"  },
-  { name:"Zigbee2MQTT",     url:"https://z2m.pevecmax.uk",      icon:"simple-icons:zigbee2mqtt", status:"ok"  },
-  { name:"Ugreen NAS",      url:"https://nas.pevecmax.uk",      icon:"mdi:server",               status:"off" }
-];
+/* ===== Theme Handling ===== */
+const root = document.documentElement;
+const themeToggle = document.getElementById('theme-toggle');
+const themeIcon = document.getElementById('theme-icon');
 
-const cards = document.getElementById("cards");
-SERVICES.forEach(s=>{
-  const a = document.createElement("a");
-  a.className="card"; a.href=s.url; a.target="_blank";
-  a.innerHTML = `
-    <div class="icon-wrap"><iconify-icon icon="${s.icon}"></iconify-icon></div>
-    <div class="meta">
-      <div class="title">${s.name}</div>
-      <div class="row"><span class="dot ${s.status}"></span><span>Status</span></div>
-    </div>`;
-  cards.appendChild(a);
+function applyTheme(mode) {
+  // mode: 'light' | 'dark' | 'auto'
+  root.classList.remove('light');
+  if (mode === 'light') root.classList.add('light');
+  localStorage.setItem('theme', mode);
+
+  // Icon
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const isLight = (mode === 'light') || (mode === 'auto' && !prefersDark);
+  themeIcon.setAttribute('icon', isLight ? 'mdi:weather-sunny' : 'mdi:weather-night');
+}
+
+themeToggle.addEventListener('click', () => {
+  const current = localStorage.getItem('theme') || 'auto';
+  const next = current === 'auto' ? 'light' : current === 'light' ? 'dark' : 'auto';
+  applyTheme(next);
 });
 
-/* =======================
-   Theme
-   ======================= */
-const root=document.documentElement, btn=document.getElementById("themeToggle"), ico=document.getElementById("themeIcon");
-function setTheme(mode){
-  const t = mode==="auto" ? (matchMedia('(prefers-color-scheme: dark)').matches ? "dark":"light") : mode;
-  root.setAttribute("data-theme", t);
-  localStorage.setItem("theme", mode);
-  ico.setAttribute("icon", t==='dark' ? 'mdi:weather-night' : 'mdi:white-balance-sunny');
-}
-(function initTheme(){
-  const saved = localStorage.getItem("theme") || "auto";
-  setTheme(saved);
-  btn.onclick = () => {
-    const cur = localStorage.getItem("theme") || "auto";
-    setTheme(cur==="dark" ? "light" : cur==="light" ? "auto" : "dark");
-  };
-})();
+applyTheme(localStorage.getItem('theme') || 'auto');
 
-/* =======================
-   Auth UI helpers
-   ======================= */
-const loginBtn  = document.getElementById("login-btn");
-const logoutBtn = document.getElementById("logout-btn");
-const avatarBox = document.getElementById("avatar");
-const avatarImg = document.getElementById("avatar-img");
-const avatarFallback = document.getElementById("avatar-fallback");
+/* ===== Google Auth (GIS OAuth 2.0 for Browser) ===== */
+const CLIENT_ID = '1077930189575-8llim8mtudif0vride790lqalj035q78.apps.googleusercontent.com';
 
-function showLoggedOut(){
-  loginBtn.hidden  = false;
-  logoutBtn.hidden = true;
-  avatarBox.hidden = true;
-  avatarImg.removeAttribute("src");
-  avatarFallback.textContent = "";
+const btnLogin  = document.getElementById('btn-login');
+const btnLogout = document.getElementById('btn-logout');
+const avatar    = document.getElementById('avatar');
+
+let tokenClient;
+let currentToken = null;
+
+function setSignedIn(user) {
+  // user: {picture, name, email}
+  btnLogin.classList.add('hidden');
+  btnLogout.classList.remove('hidden');
+  avatar.classList.remove('hidden');
+  avatar.src = user.picture || '';
+  avatar.alt = user.name ? `Profilbild von ${user.name}` : 'Profilbild';
 }
 
-function initialsFromName(name=""){
-  const parts = name.trim().split(/\s+/).filter(Boolean);
-  const str = (parts[0]?.[0] || "") + (parts[1]?.[0] || "");
-  return str.toUpperCase() || "U";
+function setSignedOut() {
+  btnLogin.classList.remove('hidden');
+  btnLogout.classList.add('hidden');
+  avatar.classList.add('hidden');
+  avatar.src = '';
 }
 
-function showUser(u){
-  loginBtn.hidden  = true;
-  logoutBtn.hidden = false;
-  avatarBox.hidden = false;
-
-  if (u.picture){
-    avatarImg.src = u.picture;
-    avatarImg.style.display = "block";
-    avatarFallback.textContent = "";
-  } else {
-    avatarImg.removeAttribute("src");
-    avatarImg.style.display = "none";
-    avatarFallback.textContent = initialsFromName(u.name || u.given_name || "");
-  }
+function saveSession(data) {
+  // ttl ~ 55 min
+  const exp = Date.now() + 55 * 60 * 1000;
+  localStorage.setItem('auth', JSON.stringify({ ...data, exp }));
+}
+function loadSession() {
+  try {
+    const j = JSON.parse(localStorage.getItem('auth'));
+    if (!j) return null;
+    if (Date.now() > j.exp) { localStorage.removeItem('auth'); return null; }
+    return j;
+  } catch { return null; }
 }
 
-/* Persistenz + Validierung (exp prüfen) */
-const LS_KEY_USER = "pmx-user";
-const LS_KEY_TOKEN = "pmx-idtoken";
-
-function validStoredUser(){
-  try{
-    const user = JSON.parse(localStorage.getItem(LS_KEY_USER) || "null");
-    const token = localStorage.getItem(LS_KEY_TOKEN);
-    if (!user || !token) return null;
-    const payload = JSON.parse(atob(token.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')));
-    const now = Math.floor(Date.now()/1000);
-    if (!payload.exp || payload.exp <= now) { // abgelaufen
-      localStorage.removeItem(LS_KEY_USER);
-      localStorage.removeItem(LS_KEY_TOKEN);
-      return null;
-    }
-    return user;
-  }catch(_){ return null; }
-}
-
-/* =======================
-   Google Identity Services
-   ======================= */
-const CLIENT_ID = "1077930189575-8llim8mtudif0vride790lqalj035q78.apps.googleusercontent.com";
-
-function decodeJwt(token){
-  return JSON.parse(atob(token.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')));
-}
-
-function initGoogle(){
-  if (!window.google || !google.accounts?.id) return false;
-
-  google.accounts.id.initialize({
+function initTokenClient() {
+  tokenClient = google.accounts.oauth2.initTokenClient({
     client_id: CLIENT_ID,
-    callback: (resp)=>{
-      try{
-        const payload = decodeJwt(resp.credential);
-        localStorage.setItem(LS_KEY_USER, JSON.stringify({
-          sub: payload.sub,
-          email: payload.email,
-          name: payload.name || `${payload.given_name || ""} ${payload.family_name || ""}`.trim(),
-          picture: payload.picture || ""
-        }));
-        localStorage.setItem(LS_KEY_TOKEN, resp.credential);
-        showUser(JSON.parse(localStorage.getItem(LS_KEY_USER)));
-      }catch(e){
-        console.error("Login parse error:", e);
-        showLoggedOut();
-        alert("Anmeldung fehlgeschlagen.");
+    scope: 'openid profile email',
+    prompt: '',
+    callback: async (resp) => {
+      if (resp.error) { console.error(resp); alert('Google-Login fehlgeschlagen.'); return; }
+      currentToken = resp.access_token;
+      try {
+        // Userinfo holen (liefert Bild-URL, Name, Email)
+        const r = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+          headers: { Authorization: `Bearer ${currentToken}` }
+        });
+        const info = await r.json();
+        const user = { name: info.name, email: info.email, picture: info.picture };
+        saveSession({ user, access_token: currentToken });
+        setSignedIn(user);
+      } catch (e) {
+        console.error(e);
+        alert('Profil konnte nicht geladen werden.');
       }
-    },
-    auto_select: false,           // kein Auto-Login
-    ux_mode: "popup",             // stabil auf Mobile
-    cancel_on_tap_outside: false
+    }
   });
-
-  // Login nur per Klick
-  loginBtn.onclick = () => google.accounts.id.prompt();
-
-  // Logout
-  logoutBtn.onclick = () => {
-    google.accounts.id.disableAutoSelect();
-    localStorage.removeItem(LS_KEY_USER);
-    localStorage.removeItem(LS_KEY_TOKEN);
-    showLoggedOut();
-  };
-
-  return true;
 }
 
-/* ===== Startzustand erzwingen ===== */
-document.addEventListener("DOMContentLoaded", () => {
-  // Immer erst ausgeloggt anzeigen
-  showLoggedOut();
+function login() {
+  if (!window.google || !google.accounts || !google.accounts.oauth2) {
+    alert('Google SDK noch nicht geladen – kurz neu laden.');
+    return;
+  }
+  if (!tokenClient) initTokenClient();
+  tokenClient.requestAccessToken(); // öffnet den Google-Flow
+}
 
-  // Vorhandenen, noch gültigen Nutzer wiederherstellen
-  const existing = validStoredUser();
-  if (existing) showUser(existing);
+function logout() {
+  const sess = loadSession();
+  if (sess && sess.access_token && window.google?.accounts?.oauth2?.revoke) {
+    google.accounts.oauth2.revoke(sess.access_token, () => {});
+  }
+  localStorage.removeItem('auth');
+  currentToken = null;
+  setSignedOut();
+}
 
-  // GSI initialisieren (ggf. warten bis Script geladen)
-  const t = setInterval(() => {
-    if (initGoogle()) clearInterval(t);
-  }, 50);
-  // Sicherheitsnetz: nach 5s aufgeben ohne Fehler
-  setTimeout(()=>clearInterval(t), 5000);
+btnLogin.addEventListener('click', login);
+btnLogout.addEventListener('click', logout);
+
+// Beim Start UI korrekt setzen
+window.addEventListener('DOMContentLoaded', () => {
+  const sess = loadSession();
+  if (sess?.user) {
+    currentToken = sess.access_token || null;
+    setSignedIn(sess.user);   // Avatar sofort zeigen
+  } else {
+    setSignedOut();
+  }
 });

@@ -3,30 +3,27 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PEVEC MAX · Services</title>
+  <title>Pevec Max · Services</title>
 
-  <!-- Iconify (externe Icon-Bibliothek, keine lokalen SVGs nötig) -->
+  <!-- Iconify: riesige Icon-Datenbank ohne lokale SVGs -->
   <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js" defer></script>
 
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
-  <!-- Animierter Hintergrund -->
-  <div class="bg fx-layer"></div>
-  <div class="bg fx-layer fx-layer-2"></div>
+  <!-- Mehrlagiger, animierter Hintergrund -->
+  <div class="bg layer base"></div>
+  <div class="bg layer glow"></div>
+  <div class="bg layer particles"></div>
 
   <header class="page-head">
     <h1><span>PEVEC MAX</span> · <span class="muted">Services</span></h1>
   </header>
 
-  <main class="container" id="cards">
-    <!-- Karten werden per JS aus app.js gerendert -->
-  </main>
+  <main class="container" id="cards"></main>
 
-  <footer class="footer">
-    <span>© pevecmax.uk</span>
-  </footer>
+  <footer class="footer">© powered by max</footer>
 
-  <script src="./app.js" type="module"></script>
+  <script type="module" src="./app.js"></script>
 </body>
 </html>

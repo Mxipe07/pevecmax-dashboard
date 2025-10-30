@@ -9,29 +9,33 @@
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
+  <!-- Background -->
   <div class="bg layer base"></div>
   <div class="bg layer glow"></div>
 
+  <!-- Header -->
   <header class="page-head">
     <div class="head-left">
       <h1>Pevec Max · <span class="muted">Services</span></h1>
     </div>
     <div class="head-right">
-      <button id="login-btn" class="auth-btn glass-btn">
+      <button id="login-btn" class="auth-btn glass-btn" title="Mit Google anmelden">
         <iconify-icon icon="mdi:google" width="22"></iconify-icon>
         <span>Anmelden</span>
-      </button>
-      <button id="logout-btn" class="auth-btn ghost-btn" hidden>
-        <iconify-icon icon="mdi:logout" width="20"></iconify-icon>
       </button>
       <div id="avatar" class="avatar" hidden>
         <img id="avatar-img" alt="Profil" />
       </div>
+      <button id="logout-btn" class="auth-btn ghost-btn" title="Abmelden" hidden>
+        <iconify-icon icon="mdi:logout" width="20"></iconify-icon>
+      </button>
     </div>
   </header>
 
+  <!-- Cards -->
   <main class="container" id="cards"></main>
 
+  <!-- Theme FAB -->
   <button class="theme-fab" id="themeToggle" title="Theme wechseln">
     <iconify-icon id="themeIcon" icon="mdi:weather-night" width="24"></iconify-icon>
   </button>

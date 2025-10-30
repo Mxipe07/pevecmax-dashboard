@@ -1,30 +1,42 @@
 <!doctype html>
-<html lang="de" data-theme="dark">
+<html lang="de" data-theme="auto">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>Pevec Max · Services</title>
   <link rel="stylesheet" href="styles.css" />
-  <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+  <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js" defer></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
-  <!-- Hintergrund -->
   <div class="bg layer base"></div>
   <div class="bg layer glow"></div>
 
   <header class="page-head">
-    <h1>Pevec Max <span class="muted">· Services</span></h1>
+    <div class="head-left">
+      <h1>Pevec Max · <span class="muted">Services</span></h1>
+    </div>
+    <div class="head-right">
+      <button id="login-btn" class="auth-btn glass-btn">
+        <iconify-icon icon="mdi:google" width="22"></iconify-icon>
+        <span>Anmelden</span>
+      </button>
+      <button id="logout-btn" class="auth-btn ghost-btn" hidden>
+        <iconify-icon icon="mdi:logout" width="20"></iconify-icon>
+      </button>
+      <div id="avatar" class="avatar" hidden>
+        <img id="avatar-img" alt="Profil" />
+      </div>
+    </div>
   </header>
 
   <main class="container" id="cards"></main>
 
-  <footer class="footer">© pevecmax.uk</footer>
-
-  <!-- Floating Theme Toggle -->
-  <button class="theme-toggle" id="theme-toggle" aria-label="Theme wechseln">
-    <iconify-icon id="theme-icon" icon="ph:moon-bold"></iconify-icon>
+  <button class="theme-fab" id="themeToggle" title="Theme wechseln">
+    <iconify-icon id="themeIcon" icon="mdi:weather-night" width="24"></iconify-icon>
   </button>
 
+  <footer class="footer">© pevecmax.uk</footer>
   <script src="app.js" defer></script>
 </body>
 </html>

@@ -1,18 +1,15 @@
-/* Grundlayout */
 body {
   margin: 0;
   font-family: "Inter", sans-serif;
   background: #0a0a0a;
-  color: white;
-  overflow-x: hidden;
+  color: #fff;
 }
 
-/* Hintergrund – sanft animiert */
 .background {
   position: fixed;
   inset: 0;
-  background: radial-gradient(circle at 20% 30%, #351a6b, transparent 60%),
-              radial-gradient(circle at 80% 70%, #4a1a3a, transparent 60%);
+  background: radial-gradient(circle at 20% 30%, #2d1b4e, transparent 60%),
+              radial-gradient(circle at 80% 70%, #401a2e, transparent 60%);
   animation: move 25s ease-in-out infinite alternate;
   z-index: -1;
 }
@@ -21,125 +18,151 @@ body {
   to { background-position: 100% 100%; }
 }
 
-/* Text & Titel */
 h1 {
   text-align: center;
-  font-size: 1.8rem;
-  font-weight: 600;
   margin-top: 40px;
-  color: #f0f0f0;
+  font-size: 1.8rem;
 }
 
-/* Grid */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 20px;
+  gap: 24px;
   padding: 40px;
   max-width: 900px;
-  margin: 0 auto;
+  margin: auto;
 }
 
-/* Glasoptik */
 .card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 20px;
-  border-radius: 24px;
-  text-decoration: none;
-  color: white;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(22px) saturate(180%);
-  -webkit-backdrop-filter: blur(22px) saturate(180%);
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25),
-              inset 0 0 0 1px rgba(255, 255, 255, 0.06);
-  transition: transform 0.2s, box-shadow 0.3s;
+  border-radius: 24px;
+  padding: 24px;
+  text-decoration: none;
+  color: #fff;
+  backdrop-filter: blur(22px);
+  transition: transform 0.2s ease;
 }
+.card:hover { transform: translateY(-5px); }
 
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
-}
-
-/* Icons */
 .card img {
-  width: 42px;
-  height: 42px;
+  width: 40px;
+  height: 40px;
   margin-bottom: 10px;
+  filter: invert(1) brightness(1.2);
 }
 
-/* Footer */
 footer {
   text-align: center;
-  margin-bottom: 20px;
   font-size: 0.85rem;
   color: #aaa;
+  margin-bottom: 24px;
 }
 
-/* Chat */
-.chat {
+/* Floating Button */
+.chat-fab {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  width: 320px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
   background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(18px);
-  border-radius: 20px;
+  backdrop-filter: blur(22px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.chat-fab img {
+  width: 28px;
+  height: 28px;
+  filter: invert(1);
+}
+
+/* Chat Overlay */
+.chat-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99;
+}
+.hidden { display: none; }
+
+/* Chat Box */
+.chatgpt-box {
+  width: min(700px, 90%);
+  height: min(80vh, 700px);
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  box-shadow: 0 4px 28px rgba(0, 0, 0, 0.45);
+  justify-content: space-between;
+  background: rgba(30, 30, 30, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4);
+  padding: 20px;
+  text-align: center;
 }
 
-.chat.hidden {
-  display: none;
-}
-
-.chat-header {
-  padding: 10px 16px;
-  background: rgba(255, 255, 255, 0.1);
+.chatgpt-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+.chatgpt-header button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.chatgpt-content h2 {
   font-weight: 500;
+  opacity: 0.8;
 }
 
 .chat-messages {
   flex: 1;
-  padding: 10px 16px;
   overflow-y: auto;
-  font-size: 0.9rem;
-}
-
-.chat-input {
-  display: flex;
+  text-align: left;
+  margin-top: 20px;
   padding: 10px;
-  gap: 6px;
 }
 
-.chat-input input {
+.chatgpt-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+.chatgpt-input input {
   flex: 1;
-  padding: 8px 10px;
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
   border: none;
+  border-radius: 14px;
+  padding: 10px;
+  color: white;
+}
+.chatgpt-input button {
   background: rgba(255, 255, 255, 0.15);
-  color: white;
-}
-
-.chat-input button {
-  background: rgba(255, 255, 255, 0.25);
   border: none;
-  border-radius: 12px;
+  border-radius: 14px;
   color: white;
-  padding: 8px 12px;
+  padding: 10px 14px;
   cursor: pointer;
-  transition: background 0.2s;
+  font-size: 1rem;
 }
-
-.chat-input button:hover {
-  background: rgba(255, 255, 255, 0.35);
+.chatgpt-input button:hover {
+  background: rgba(255, 255, 255, 0.25);
 }

@@ -1,3 +1,4 @@
+/* === Basis === */
 body {
   margin: 0;
   font-family: "Inter", sans-serif;
@@ -24,6 +25,7 @@ h1 {
   font-size: 1.8rem;
 }
 
+/* === Grid mit Kacheln === */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -46,7 +48,9 @@ h1 {
   backdrop-filter: blur(22px);
   transition: transform 0.2s ease;
 }
-.card:hover { transform: translateY(-5px); }
+.card:hover {
+  transform: translateY(-5px);
+}
 
 .card img {
   width: 40px;
@@ -62,7 +66,7 @@ footer {
   margin-bottom: 24px;
 }
 
-/* Floating Button */
+/* === Floating Chat Button === */
 .chat-fab {
   position: fixed;
   bottom: 20px;
@@ -78,6 +82,10 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.3s ease;
+}
+.chat-fab:hover {
+  transform: scale(1.08);
 }
 .chat-fab img {
   width: 28px;
@@ -85,7 +93,7 @@ footer {
   filter: invert(1);
 }
 
-/* Chat Overlay */
+/* === Overlay === */
 .chat-overlay {
   position: fixed;
   inset: 0;
@@ -95,10 +103,24 @@ footer {
   align-items: center;
   justify-content: center;
   z-index: 99;
+  animation: fadeIn 0.4s ease;
 }
-.hidden { display: none; }
+.hidden {
+  display: none;
+}
 
-/* Chat Box */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* === Chatbox === */
 .chatgpt-box {
   width: min(700px, 90%);
   height: min(80vh, 700px);
@@ -111,6 +133,17 @@ footer {
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4);
   padding: 20px;
   text-align: center;
+  animation: popup 0.4s ease;
+}
+@keyframes popup {
+  from {
+    opacity: 0;
+    transform: translateY(15px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .chatgpt-header {
@@ -140,6 +173,7 @@ footer {
   padding: 10px;
 }
 
+/* === Eingabefeld === */
 .chatgpt-input {
   display: flex;
   align-items: center;

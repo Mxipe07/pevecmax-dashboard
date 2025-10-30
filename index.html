@@ -1,28 +1,31 @@
 <!doctype html>
-<html lang="de">
+<html lang="de" data-theme="dark">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Pevec Max · Services</title>
-
-  <!-- Iconify = Icons aus dem Web, keine lokalen SVGs nötig -->
-  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js" defer></script>
-
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
-  <!-- Ruhiger, bewegter Vision-Background -->
-  <div class="bg layer base"></div>
-  <div class="bg layer glow"></div>
+  <!-- Bewegter Aurora-Background -->
+  <canvas id="aurora" aria-hidden="true"></canvas>
 
-  <header class="page-head">
-    <h1><span>Pevec Max</span> · <span class="muted">Services</span></h1>
+  <header class="site-header">
+    <h1 class="site-title"><span>Pevec Max</span> · <span>Services</span></h1>
   </header>
 
-  <main class="container" id="cards"></main>
+  <main id="cards" class="cards"></main>
 
-  <footer class="footer">© pevecmax.uk</footer>
+  <footer class="footer">
+    <small>© pevecmax.uk</small>
+  </footer>
 
-  <script type="module" src="./app.js"></script>
+  <!-- Floating Theme Toggle (unten links) -->
+  <button id="theme-toggle" class="fab" aria-label="Theme umschalten" title="Theme umschalten">
+    <span class="icon" aria-hidden="true">🌙</span>
+  </button>
+
+  <script src="./app.js" defer></script>
 </body>
 </html>

@@ -19,13 +19,19 @@
       <h1>Pevec Max · <span class="muted">Services</span></h1>
     </div>
     <div class="head-right">
+      <!-- Login (sichtbar wenn ausgeloggt) -->
       <button id="login-btn" class="auth-btn glass-btn" title="Mit Google anmelden">
         <iconify-icon icon="mdi:google" width="22"></iconify-icon>
         <span>Anmelden</span>
       </button>
+
+      <!-- Avatar (nur wenn eingeloggt) -->
       <div id="avatar" class="avatar" hidden>
         <img id="avatar-img" alt="Profil" />
+        <span id="avatar-fallback" class="avatar-fallback" aria-hidden="true"></span>
       </div>
+
+      <!-- Logout (nur wenn eingeloggt) -->
       <button id="logout-btn" class="auth-btn ghost-btn" title="Abmelden" hidden>
         <iconify-icon icon="mdi:logout" width="20"></iconify-icon>
       </button>

@@ -1,148 +1,141 @@
-/* =======================
-   Tokens – Dark (Default)
-   ======================= */
+/* ========= Tokens – Dark (neutral, wie linkes Bild) ========= */
 :root{
   --bg: #0b0f14;
-  --text: #e8ebf0;
-  --muted:#b8bfca;
+  --text: #eef1f6;
+  --muted:#aeb6c3;
 
-  --glass-bg: rgba(255,255,255,0.08);
-  --glass-border: rgba(255,255,255,0.18);
-  --glass-inner: rgba(255,255,255,0.06);
+  /* neutrales Glas: grau/transluzent, ohne Farbstich */
+  --glass-bg: rgba(20, 24, 31, 0.55);
+  --glass-border: rgba(255,255,255,0.14);
+  --glass-inner: rgba(255,255,255,0.05);
 
-  --shadow: 0 10px 40px rgba(0,0,0,0.35);
+  --shadow: 0 12px 36px rgba(0,0,0,0.40);
 
-  --radius-xl: 44px;   /* runde Karten, wie gewünscht */
-  --radius-lg: 24px;   /* runde Icon-Blase */
-
-  --pad-card: 18px;    /* kompakter, mobiler Look */
-  --backdrop-blur: 22px;
+  --radius-xl: 44px;
+  --radius-lg: 22px;
+  --pad-card: 18px;
+  --backdrop-blur: 20px;
   --maxw: 980px;
 
-  --good: #34d399;     /* Status grün */
-  --warn: #f59e0b;     /* Status orange (falls später genutzt) */
-  --bad:  #6b7280;     /* Status grau */
+  --good: #3ee38f; /* Status grün mit Glow */
+  --warn: #f5a524;
+  --bad:  #7b8391;
 }
 
-/* =======================
-   Theme – Light Overrides
-   ======================= */
+/* ========= Light Theme (optional; Optik bleibt neutral) ========= */
 html[data-theme="light"]{
-  --bg: #f5f7fb;
-  --text: #0d1220;
-  --muted:#5c6578;
+  --bg: #f4f6fa;
+  --text: #0e1322;
+  --muted:#657089;
 
-  --glass-bg: rgba(255,255,255,0.65);
-  --glass-border: rgba(0,0,0,0.06);
-  --glass-inner: rgba(255,255,255,0.75);
+  --glass-bg: rgba(255,255,255,0.70);
+  --glass-border: rgba(0,0,0,0.08);
+  --glass-inner: rgba(255,255,255,0.70);
+  --shadow: 0 10px 28px rgba(0,0,0,0.12);
 
-  --shadow: 0 8px 30px rgba(0,0,0,0.12);
-  --good: #0ea86b;
-  --warn: #c97a08;
-  --bad:  #9aa3ad;
+  --good: #13b26b;
+  --bad:  #98a2af;
 }
 
-*{ box-sizing: border-box; -webkit-tap-highlight-color: transparent }
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent }
 html,body{ height:100% }
 body{
   margin:0; color:var(--text);
-  font:500 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Inter, "SF Pro Text", Arial, sans-serif;
+  font:500 16px/1.5 ui-sans-serif, system-ui, -apple-system, "SF Pro Text", Segoe UI, Roboto, Inter, Arial;
   background: var(--bg);
   overflow-x:hidden;
-  transition: background-color .3s ease, color .3s ease;
+  transition: background-color .25s ease, color .25s ease;
 }
 
 #aurora{ position:fixed; inset:0; width:100%; height:100%; z-index:-1 }
 
 /* Header */
-.site-header{ max-width:var(--maxw); margin:48px auto 24px; padding:0 16px }
+.site-header{ max-width:var(--maxw); margin:48px auto 22px; padding:0 16px }
 .site-title{
-  margin:0; letter-spacing:.4px;
-  font-size: clamp(28px, 3.6vw + 12px, 52px);
+  margin:0;
   font-weight:800;
-  text-shadow: 0 2px 18px rgba(0,0,0,.15);
+  letter-spacing:.3px;
+  font-size: clamp(28px, 3.6vw + 12px, 48px);
+  text-shadow: 0 2px 16px rgba(0,0,0,.18);
 }
+.site-title span{ font-weight:800 }
 
 /* Kartenliste */
 .cards{
   max-width:var(--maxw);
-  margin: 0 auto 80px;
+  margin:0 auto 80px;
   padding: 0 12px;
-  display: grid;
-  gap: 18px;
+  display:grid;
+  gap:18px;
 }
 
-/* ======= Karte (wie vorher: Icon + Titel + Statuszeile) ======= */
+/* ===== Karte: identisch zum „vorher“ (Icon + Titel + Status) ===== */
 .card{
   position:relative;
-  border-radius: var(--radius-xl);
+  border-radius:var(--radius-xl);
   background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
+  border:1px solid var(--glass-border);
   box-shadow: var(--shadow), inset 0 0 0 1px var(--glass-inner);
   backdrop-filter: blur(var(--backdrop-blur)) saturate(160%);
   -webkit-backdrop-filter: blur(var(--backdrop-blur)) saturate(160%);
   overflow: clip;
-  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
   min-height: 92px;
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
 }
-.card:hover{ transform: translateY(-1.5px); border-color: rgba(255,255,255,.20) }
+.card:hover{ transform: translateY(-1.5px); border-color: rgba(255,255,255,.22) }
+.card-link{ position:absolute; inset:0; z-index:1 }
 
-.card-body{
-  display:flex; align-items:center; gap:16px;
-  padding: var(--pad-card);
-}
-.card-link{ position:absolute; inset:0; z-index:1 } /* macht die ganze Kachel klickbar */
+.card-body{ display:flex; align-items:center; gap:16px; padding:var(--pad-card) }
 
-/* Iconfeld */
+/* Icon-Blob (neutral, ohne Farbstich) */
 .card-icon{
   width:72px; height:72px; min-width:72px;
   border-radius: var(--radius-lg);
   display:grid; place-items:center;
-  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-  border: 1px solid rgba(0,0,0,0.08);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 10px 30px rgba(0,0,0,.35);
+  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+  border: 1px solid rgba(255,255,255,0.10);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.18), 0 12px 28px rgba(0,0,0,.40);
 }
 html[data-theme="light"] .card-icon{
-  background: linear-gradient(180deg, rgba(255,255,255,.9), rgba(255,255,255,.65));
-  border: 1px solid rgba(0,0,0,0.06);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.9), 0 10px 24px rgba(0,0,0,.08);
+  background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.70));
+  border:1px solid rgba(0,0,0,.06);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.95), 0 10px 22px rgba(0,0,0,.10);
 }
 .card-icon img{
   width:36px; height:36px; object-fit:contain; opacity:.95;
-  filter: drop-shadow(0 2px 8px rgba(0,0,0,.25));
+  /* Symbole einfarbig hell darstellen */
+  filter: brightness(0) saturate(100%) invert(1);
 }
 
 /* Textblock */
 .card-main{ flex:1; min-width:0 }
 .card-title{ font-size: clamp(18px, 1.6vw + 10px, 26px); font-weight:800; margin:2px 0 6px }
-.card-meta{ display:flex; align-items:center; gap:12px; color:var(--muted); font-weight:600 }
+.card-meta{ display:flex; align-items:center; gap:12px; color:var(--muted); font-weight:700 }
 
-/* Statuspunkt (nur Punkt + "Status"-Label) */
-.dot{
-  width:12px; height:12px; border-radius:50%;
-  box-shadow: 0 0 10px currentColor, inset 0 0 0 1px rgba(0,0,0,.35);
-}
-.dot.ok{ background: var(--good); color: var(--good) }
-.dot.warn{ background: var(--warn); color: var(--warn) }
-.dot.off{ background: var(--bad);  color: var(--bad) }
+/* Statuspunkt */
+.dot{ width:12px; height:12px; border-radius:50%; box-shadow: 0 0 10px currentColor, inset 0 0 0 1px rgba(0,0,0,.36) }
+.dot.ok{ background:var(--good); color:var(--good) }
+.dot.warn{ background:var(--warn); color:var(--warn) }
+.dot.off{ background:var(--bad); color:var(--bad) }
 
 /* Footer */
-.footer{ text-align:center; color:var(--muted); margin: 22px 0 38px }
+.footer{ text-align:center; color:var(--muted); margin:22px 0 38px }
 
-/* Floating Theme Toggle (unten links) */
+/* Theme-Toggle (unten links, klein & dezent) */
 .fab{
-  position: fixed; left: 14px; bottom: 16px; z-index: 5;
-  width: 46px; height: 46px; border-radius: 999px; border: 1px solid var(--glass-border);
+  position:fixed; left:14px; bottom:16px; z-index:5;
+  width:44px; height:44px; border-radius:999px;
+  border:1px solid var(--glass-border);
   background: var(--glass-bg);
   backdrop-filter: blur(12px) saturate(160%);
   -webkit-backdrop-filter: blur(12px) saturate(160%);
-  box-shadow: var(--shadow); color: var(--text);
-  display:grid; place-items:center; cursor: pointer;
-  transition: transform .2s ease, box-shadow .2s ease, background .3s ease, border-color .3s ease;
+  box-shadow: var(--shadow);
+  display:grid; place-items:center; color:var(--text);
+  cursor:pointer; transition: transform .2s ease, border-color .2s ease;
 }
 .fab:hover{ transform: translateY(-1px) }
 
 @media (max-width:480px){
   .card-icon{ width:64px; height:64px; min-width:64px }
-  .card-title{ font-size: 20px }
+  .card-title{ font-size:20px }
 }

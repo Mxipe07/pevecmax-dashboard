@@ -1,71 +1,58 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>pevecmax · Services</title>
-  <link rel="preload" href="styles.css" as="style">
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <div class="bg"></div>
-  <header>
-    <h1>pevecmax · Services</h1>
-  </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pevecmax · Services</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="background"></div>
 
-  <main class="grid">
-    <a class="card ha" href="https://haos.pevecmax.uk" data-host="https://haos.pevecmax.uk">
-      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/homeassistant.svg" alt="">
-      <div class="info"><span>Home Assistant</span><small>Smart Home Hub</small></div>
-      <div class="status"></div>
-    </a>
+    <main>
+      <h1>pevecmax · Services</h1>
+      <div class="grid">
+        <a href="https://haos.pevecmax.uk" class="card">
+          <img src="https://cdn.jsdelivr.net/gh/edent/SuperTinyIcons/images/svg/home-assistant.svg" alt="Home Assistant" />
+          <span>Home Assistant</span>
+        </a>
+        <a href="https://n8n.pevecmax.uk" class="card">
+          <img src="https://cdn.jsdelivr.net/gh/edent/SuperTinyIcons/images/svg/n8n.svg" alt="n8n" />
+          <span>n8n</span>
+        </a>
+        <a href="https://paper.pevecmax.uk" class="card">
+          <img src="https://cdn.jsdelivr.net/gh/edent/SuperTinyIcons/images/svg/nginx.svg" alt="Paperless" />
+          <span>Paperless NGINX</span>
+        </a>
+        <a href="https://z2m.pevecmax.uk" class="card">
+          <img src="https://cdn.jsdelivr.net/gh/edent/SuperTinyIcons/images/svg/zigbee.svg" alt="Zigbee2MQTT" />
+          <span>Zigbee2MQTT</span>
+        </a>
+        <a href="https://nas.pevecmax.uk" class="card">
+          <img src="https://cdn.jsdelivr.net/gh/edent/SuperTinyIcons/images/svg/nas.svg" alt="Ugreen NAS" />
+          <span>Ugreen NAS</span>
+        </a>
+        <a href="#" class="card" id="openChat">
+          <img src="https://cdn.jsdelivr.net/gh/edent/SuperTinyIcons/images/svg/openai.svg" alt="ChatGPT" />
+          <span>ChatGPT</span>
+        </a>
+      </div>
+    </main>
 
-    <a class="card n8n" href="https://n8n.pevecmax.uk" data-host="https://n8n.pevecmax.uk">
-      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/n8n.svg" alt="">
-      <div class="info"><span>n8n</span><small>Automations</small></div>
-      <div class="status"></div>
-    </a>
+    <footer>© pevecmax.uk</footer>
 
-    <a class="card nginx" href="https://paper.pevecmax.uk" data-host="https://paper.pevecmax.uk">
-      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/nginx.svg" alt="">
-      <div class="info"><span>Paperless NGINX</span><small>Docs & PDFs</small></div>
-      <div class="status"></div>
-    </a>
-
-    <a class="card zigbee" href="https://z2m.pevecmax.uk" data-host="https://z2m.pevecmax.uk">
-      <img src="https://cdn.jsdelivr.net/gh/Templarian/MaterialDesign/svg/zigbee.svg" alt="">
-      <div class="info"><span>Zigbee 2 MQTT</span><small>Smart Devices</small></div>
-      <div class="status"></div>
-    </a>
-
-    <a class="card nas" href="https://nas.pevecmax.uk" data-host="https://nas.pevecmax.uk">
-      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/server.svg" alt="">
-      <div class="info"><span>Ugreen NAS</span><small>Storage</small></div>
-      <div class="status"></div>
-    </a>
-
-    <button class="card gpt" id="open-chat">
-      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/openai.svg" alt="">
-      <div class="info"><span>ChatGPT</span><small>KI-Assistent</small></div>
-    </button>
-  </main>
-
-  <!-- Chat Overlay -->
-  <div id="chat-overlay" class="overlay hidden">
-    <div class="panel">
-      <header class="chat-head">
-        <h2><span class="dot"></span> ChatGPT</h2>
-        <button id="close-chat">✕</button>
-      </header>
-      <div id="chatlog" class="log"></div>
-      <div class="row">
-        <input id="prompt" placeholder="Frag mich etwas …">
-        <button id="send">Senden</button>
+    <div id="chatWindow" class="chat hidden">
+      <div class="chat-header">
+        <span>ChatGPT</span>
+        <button id="closeChat">×</button>
+      </div>
+      <div id="chatMessages" class="chat-messages"></div>
+      <div class="chat-input">
+        <input id="userInput" type="text" placeholder="Frag mich etwas..." />
+        <button id="sendBtn">Senden</button>
       </div>
     </div>
-  </div>
 
-  <footer>© pevecmax.uk</footer>
-  <script src="app.js"></script>
-</body>
+    <script src="app.js"></script>
+  </body>
 </html>

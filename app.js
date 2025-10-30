@@ -1,28 +1,33 @@
-// Öffnen & Schließen des Chatfensters
-const chat = document.getElementById("chatWindow");
-document.getElementById("openChat").onclick = () => chat.classList.remove("hidden");
-document.getElementById("closeChat").onclick = () => chat.classList.add("hidden");
-
-const messages = document.getElementById("chatMessages");
-const input = document.getElementById("userInput");
+const chatBtn = document.getElementById("chatBtn");
+const chatOverlay = document.getElementById("chatOverlay");
+const closeChat = document.getElementById("closeChat");
 const sendBtn = document.getElementById("sendBtn");
+const userInput = document.getElementById("userInput");
+const chatMessages = document.getElementById("chatMessages");
+
+chatBtn.onclick = () => chatOverlay.classList.remove("hidden");
+closeChat.onclick = () => chatOverlay.classList.add("hidden");
 
 async function sendMessage() {
-  const msg = input.value.trim();
+  const msg = userInput.value.trim();
   if (!msg) return;
-  messages.innerHTML += `<div><b>Du:</b> ${msg}</div>`;
-  input.value = "";
+  chatMessages.innerHTML += `<div><b>Du:</b> ${msg}</div>`;
+  userInput.value = "";
 
-  const res = await fetch("/api/chat", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ message: msg })
-  });
+  try {
+    const res = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: msg }),
+    });
+    const data = await res.json();
+    chatMessages.innerHTML += `<div><b>ChatGPT:</b> ${data.reply || "..."}</div>`;
+  } catch {
+    chatMessages.innerHTML += `<div><b>ChatGPT:</b> Keine Antwort (Fehler).</div>`;
+  }
 
-  const data = await res.json();
-  messages.innerHTML += `<div><b>ChatGPT:</b> ${data.reply}</div>`;
-  messages.scrollTop = messages.scrollHeight;
+  chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
 sendBtn.onclick = sendMessage;
-input.addEventListener("keydown", (e) => e.key === "Enter" && sendMessage());
+userInput.addEventListener("keydown", (e) => e.key === "Enter" && sendMessage());

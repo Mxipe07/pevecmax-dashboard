@@ -1,33 +1,32 @@
-const chatBtn = document.getElementById("chatBtn");
-const chatOverlay = document.getElementById("chatOverlay");
-const closeChat = document.getElementById("closeChat");
-const sendBtn = document.getElementById("sendBtn");
-const userInput = document.getElementById("userInput");
-const chatMessages = document.getElementById("chatMessages");
+const btn = document.getElementById("chatBtn");
+const overlay = document.getElementById("chatOverlay");
+const closeBtn = document.getElementById("closeChat");
+const form = document.getElementById("chatForm");
+const input = document.getElementById("chatInput");
+const box = document.getElementById("chatBox");
 
-chatBtn.onclick = () => chatOverlay.classList.remove("hidden");
-closeChat.onclick = () => chatOverlay.classList.add("hidden");
+btn.addEventListener("click", () => overlay.classList.remove("hidden"));
+closeBtn.addEventListener("click", () => overlay.classList.add("hidden"));
 
-async function sendMessage() {
-  const msg = userInput.value.trim();
-  if (!msg) return;
-  chatMessages.innerHTML += `<div><b>Du:</b> ${msg}</div>`;
-  userInput.value = "";
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const message = input.value.trim();
+  if (!message) return;
+  addMessage("Du", message);
+  input.value = "";
 
-  try {
-    const res = await fetch("/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: msg }),
-    });
-    const data = await res.json();
-    chatMessages.innerHTML += `<div><b>ChatGPT:</b> ${data.reply || "..."}</div>`;
-  } catch {
-    chatMessages.innerHTML += `<div><b>ChatGPT:</b> Keine Antwort (Fehler).</div>`;
-  }
+  const res = await fetch("/api/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message }),
+  });
+  const data = await res.json();
+  addMessage("ChatGPT", data.reply || "Keine Antwort.");
+});
 
-  chatMessages.scrollTop = chatMessages.scrollHeight;
+function addMessage(sender, text) {
+  const p = document.createElement("p");
+  p.innerHTML = `<strong>${sender}:</strong> ${text}`;
+  box.appendChild(p);
+  box.scrollTop = box.scrollHeight;
 }
-
-sendBtn.onclick = sendMessage;
-userInput.addEventListener("keydown", (e) => e.key === "Enter" && sendMessage());

@@ -1,12 +1,10 @@
 {
   "version": 2,
   "functions": {
-    "api/**.js": {
-      "runtime": "nodejs20.x"
-    }
+    "api/**.js": { "runtime": "nodejs20.x" }
   },
   "routes": [
-    { "src": "/api/chat-stream", "dest": "/api/chat-stream.js" },
+    { "src": "/api/health", "dest": "/api/health.js" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]
 }

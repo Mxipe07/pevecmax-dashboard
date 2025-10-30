@@ -5,82 +5,69 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>PEVEC MAX · Dashboard</title>
   <link rel="stylesheet" href="/styles.css" />
-  <meta name="color-scheme" content="dark light">
 </head>
 <body>
-
-  <!-- Hintergrund (sanfte Lichtverläufe + Partikel) -->
-  <canvas id="bg-particles" aria-hidden="true"></canvas>
-  <div class="bg-glow"></div>
-
   <header class="topbar">
-    <div class="brand">
-      <span class="logo-bubble"></span>
-      <h1>PEVEC MAX · <span class="thin">Dashboard</span></h1>
-    </div>
-
-    <div class="actions">
-      <button id="cmdk" class="chip" title="Befehlspalette (Strg/Cmd + K)">⌘K</button>
-      <button id="theme-toggle" class="chip" title="Hell/Dunkel">☀︎/☾</button>
-    </div>
+    <h1>PEVEC MAX · <span>Services</span></h1>
   </header>
 
-  <main class="container">
-    <section class="grid" id="tiles">
-      <!-- Tiles werden von app.js gebaut -->
+  <main class="shell">
+    <section class="grid">
+
+      <a class="card" href="https://haos.pevecmax.uk" target="_blank" rel="noopener">
+        <div class="card-icon">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/homeassistant.svg" alt="Home Assistant">
+        </div>
+        <div class="card-text">
+          <div class="title">Home Assistant</div>
+          <div class="status"><span class="dot" data-url="https://haos.pevecmax.uk"></span> Status</div>
+        </div>
+      </a>
+
+      <a class="card" href="https://n8n.pevecmax.uk" target="_blank" rel="noopener">
+        <div class="card-icon">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/n8n.svg" alt="n8n">
+        </div>
+        <div class="card-text">
+          <div class="title">n8n</div>
+          <div class="status"><span class="dot" data-url="https://n8n.pevecmax.uk"></span> Status</div>
+        </div>
+      </a>
+
+      <a class="card" href="https://paper.pevecmax.uk" target="_blank" rel="noopener">
+        <div class="card-icon">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/nginx.svg" alt="Paperless NGINX">
+        </div>
+        <div class="card-text">
+          <div class="title">Paperless NGINX</div>
+          <div class="status"><span class="dot" data-url="https://paper.pevecmax.uk"></span> Status</div>
+        </div>
+      </a>
+
+      <a class="card" href="https://z2m.pevecmax.uk" target="_blank" rel="noopener">
+        <div class="card-icon">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/zigbee.svg" alt="Zigbee2MQTT">
+        </div>
+        <div class="card-text">
+          <div class="title">Zigbee2MQTT</div>
+          <div class="status"><span class="dot" data-url="https://z2m.pevecmax.uk"></span> Status</div>
+        </div>
+      </a>
+
+      <a class="card" href="https://nas.pevecmax.uk" target="_blank" rel="noopener">
+        <div class="card-icon">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/network.svg" alt="Ugreen NAS">
+        </div>
+        <div class="card-text">
+          <div class="title">Ugreen NAS</div>
+          <div class="status"><span class="dot" data-url="https://nas.pevecmax.uk"></span> Status</div>
+        </div>
+      </a>
+
     </section>
   </main>
 
-  <!-- Schwebe-Button (Floating Action Button) für ChatGPT -->
-  <button id="fab" class="fab" aria-label="ChatGPT öffnen" title="ChatGPT">
-    <!-- OpenAI-Kreislogo als inline SVG -->
-    <svg viewBox="0 0 24 24" class="fab-icon" aria-hidden="true">
-      <path d="M12 2a5 5 0 0 1 4.58 2.86A5 5 0 0 1 20 10v.5a5 5 0 0 1-2.5 4.33V17a5 5 0 0 1-5 5h-.5a5 5 0 0 1-4.33-2.5H6.5A5 5 0 0 1 2 14.5V14a5 5 0 0 1 2.86-4.58A5 5 0 0 1 10 4h.5A5 5 0 0 1 12 2z" fill="currentColor" opacity=".14"/>
-      <circle cx="12" cy="12" r="9" fill="currentColor" opacity=".18"/>
-      <circle cx="12" cy="12" r="6.2" fill="none" stroke="currentColor" stroke-width="1.4"/>
-    </svg>
-  </button>
-
-  <!-- ChatGPT Overlay (Modal) -->
-  <div id="chat-overlay" class="overlay" aria-hidden="true">
-    <div class="modal" role="dialog" aria-labelledby="chat-title" aria-modal="true">
-      <div class="modal-top">
-        <button id="chat-close" class="close" aria-label="Schließen">×</button>
-        <div class="modal-tabs">
-          <span id="chat-title" class="tab active">ChatGPT</span>
-          <button id="chat-new" class="chip small" title="Neuer Chat">Neu</button>
-        </div>
-      </div>
-
-      <div class="modal-hero">
-        <div class="hero-title">Wie kann ich dir helfen?</div>
-      </div>
-
-      <div id="chat-messages" class="messages" aria-live="polite">
-        <!-- Chatblasen kommen hier per JS rein -->
-      </div>
-
-      <form id="chat-form" class="chatbar" autocomplete="off">
-        <input id="chat-input" class="chat-input" type="text" placeholder="Frag mich etwas…" />
-        <button class="chat-send" aria-label="Senden">
-          <span class="send-caret">➤</span>
-        </button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Command Palette -->
-  <div id="palette" class="palette" aria-hidden="true">
-    <div class="palette-box">
-      <input id="palette-input" class="palette-input" placeholder="Tippe einen Befehl oder Dienst…" />
-      <ul id="palette-list" class="palette-list"></ul>
-    </div>
-  </div>
-
-  <footer class="foot">
-    © pevecmax.uk
-  </footer>
-
-  <script src="/app.js" type="module"></script>
+  <footer class="foot">© pevecmax.uk</footer>
+  <script src="/app.js"></script>
 </body>
 </html>

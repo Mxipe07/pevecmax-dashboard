@@ -1,16 +1,91 @@
-DOCTYPE html>
+<!DOCTYPE html>
 <html lang="de">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pevecmax · Services</title>
+    <title>pevecmax · Dashboard</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
+
   <body>
     <div class="background"></div>
 
     <main>
       <h1>pevecmax · Services</h1>
+
       <div class="grid">
         <a href="https://haos.pevecmax.uk" class="card">
-          <img src="https://cdn.jsdelivr.net
+          <img
+            src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/homeassistant.svg"
+            alt="Home Assistant"
+          />
+          <span>Home Assistant</span>
+        </a>
+
+        <a href="https://n8n.pevecmax.uk" class="card">
+          <img
+            src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/n8n.svg"
+            alt="n8n"
+          />
+          <span>n8n</span>
+        </a>
+
+        <a href="https://paper.pevecmax.uk" class="card">
+          <img
+            src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/nginx.svg"
+            alt="Paperless NGINX"
+          />
+          <span>Paperless NGINX</span>
+        </a>
+
+        <a href="https://z2m.pevecmax.uk" class="card">
+          <img
+            src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/zigbee.svg"
+            alt="Zigbee2MQTT"
+          />
+          <span>Zigbee2MQTT</span>
+        </a>
+
+        <a href="https://nas.pevecmax.uk" class="card">
+          <img
+            src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/server.svg"
+            alt="Ugreen NAS"
+          />
+          <span>Ugreen NAS</span>
+        </a>
+      </div>
+    </main>
+
+    <footer>© pevecmax.uk</footer>
+
+    <!-- ChatGPT Button -->
+    <button id="chatBtn" class="chat-fab">
+      <img
+        src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/openai.svg"
+        alt="ChatGPT"
+      />
+    </button>
+
+    <!-- ChatGPT Overlay -->
+    <div id="chatOverlay" class="chat-overlay hidden">
+      <div class="chatgpt-box">
+        <div class="chatgpt-header">
+          <span>ChatGPT</span>
+          <button id="closeChat">×</button>
+        </div>
+
+        <div class="chatgpt-content">
+          <h2>Wie kann ich dir helfen?</h2>
+          <div id="chatMessages" class="chat-messages"></div>
+        </div>
+
+        <div class="chatgpt-input">
+          <input id="userInput" type="text" placeholder="Frag mich etwas..." />
+          <button id="sendBtn">➤</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

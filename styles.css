@@ -100,7 +100,7 @@ body {
 
 .card-icon {
   width: 84px; height: 84px;
-  border-radius: 22px;
+  border-radius: 44px;
   background: var(--glass);
   border: 1px solid var(--glass-strong);
   display: grid; place-items: center;

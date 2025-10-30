@@ -1,17 +1,64 @@
-DOCTYPE html>
+<!DOCTYPE html>
 <html lang="de">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>pevecmax · Services</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="background"></div>
+    <h1>pevecmax · Services</h1>
 
-    <main>
-      <h1>pevecmax · Services</h1>
+    <div class="services">
+      <a class="card" href="https://haos.pevecmax.uk" target="_blank">
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/homeassistant.svg" alt="Home Assistant" />
+        <span>Home Assistant</span>
+      </a>
 
-      <div class="grid">
-        <a href="https://haos.pevecmax.uk" class="card">
-          <img
+      <a class="card" href="https://n8n.pevecmax.uk" target="_blank">
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/n8n.svg" alt="n8n" />
+        <span>n8n</span>
+      </a>
+
+      <a class="card" href="https://paper.pevecmax.uk" target="_blank">
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/nginx.svg" alt="Paperless" />
+        <span>Paperless NGINX</span>
+      </a>
+
+      <a class="card" href="https://z2m.pevecmax.uk" target="_blank">
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/zigbee.svg" alt="Zigbee2MQTT" />
+        <span>Zigbee2MQTT</span>
+      </a>
+
+      <a class="card" href="https://nas.pevecmax.uk" target="_blank">
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/server.svg" alt="Ugreen NAS" />
+        <span>Ugreen NAS</span>
+      </a>
+    </div>
+
+    <!-- FAB -->
+    <button id="fab-chat" class="chat-fab" aria-label="ChatGPT öffnen">
+      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/openai.svg" alt="" />
+    </button>
+
+    <!-- Overlay -->
+    <div id="cgpt" class="cgpt hidden" role="dialog" aria-modal="true">
+      <div class="cgpt-header">
+        <button id="cgpt-close" class="cgpt-icon" aria-label="Schließen">✕</button>
+        <div class="cgpt-title">ChatGPT</div>
+        <button id="cgpt-clear" class="cgpt-icon" aria-label="Verlauf löschen">⟲</button>
+      </div>
+
+      <div id="cgpt-log" class="cgpt-log">
+        <h2 class="cgpt-hero">Wie kann ich dir helfen?</h2>
+      </div>
+
+      <form id="cgpt-form" class="cgpt-input" autocomplete="off">
+        <input id="cgpt-prompt" placeholder="Frag mich etwas..." />
+        <button id="cgpt-send" class="cgpt-send" type="submit" aria-label="Senden">➤</button>
+      </form>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

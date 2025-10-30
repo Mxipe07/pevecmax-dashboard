@@ -1,49 +1,66 @@
-export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
+// /api/chat-stream.js  – CommonJS kompatibel (Vercel Node runtime)
+
+module.exports = async function handler(req, res) {
+  if (req.method !== 'POST') {
+    res.status(405).json({ error: 'Method not allowed' });
+    return;
   }
 
   const OPENAI_KEY = process.env.OPENAI_API_KEY;
   if (!OPENAI_KEY) {
-    return res.status(500).json({ error: "OPENAI_API_KEY not set" });
+    res.status(500).json({ error: 'OPENAI_API_KEY not set' });
+    return;
   }
 
+  // Body sicher einlesen (string oder schon geparst)
+  let body = {};
   try {
-    const body = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
-    const message = body.message || "";
+    if (typeof req.body === 'string') body = JSON.parse(req.body || '{}');
+    else if (req.body && typeof req.body === 'object') body = req.body;
+    else {
+      let buf = '';
+      for await (const chunk of req) buf += chunk;
+      body = JSON.parse(buf || '{}');
+    }
+  } catch {
+    body = {};
+  }
 
-    const upstream = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
+  const userMsg = (body.message || '').toString().trim();
+
+  try {
+    const upstream = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${OPENAI_KEY}`,
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${OPENAI_KEY}`,
       },
       body: JSON.stringify({
-        model: "gpt-3.5-turbo",
-        messages: [{ role: "user", content: message }],
+        model: 'gpt-3.5-turbo',
         stream: true,
+        messages: [{ role: 'user', content: userMsg }],
       }),
     });
 
-    res.writeHead(200, {
-      "Content-Type": "text/plain; charset=utf-8",
-      "Transfer-Encoding": "chunked",
-      "Cache-Control": "no-cache",
-    });
-
-    const reader = upstream.body.getReader();
-    const decoder = new TextDecoder();
-
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      const chunk = decoder.decode(value);
-      res.write(chunk);
+    if (!upstream.ok || !upstream.body) {
+      const text = await upstream.text();
+      res.status(upstream.status || 500).end(text || 'Upstream error');
+      return;
     }
 
+    // Streaming-Antwort durchreichen
+    res.writeHead(200, {
+      'Content-Type': 'text/plain; charset=utf-8',
+      'Transfer-Encoding': 'chunked',
+      'Cache-Control': 'no-cache, no-transform',
+    });
+
+    for await (const chunk of upstream.body) {
+      res.write(chunk);
+    }
     res.end();
   } catch (err) {
-    console.error("Chat error:", err);
-    res.status(500).json({ error: "Chat API error" });
+    console.error('Chat proxy error:', err);
+    res.status(500).json({ error: 'Chat API error' });
   }
-}
+};

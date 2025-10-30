@@ -1,67 +1,28 @@
-// Chat Overlay
-const overlay = document.getElementById('chat-overlay');
-const openChat = document.getElementById('open-chat');
-const closeChat = document.getElementById('close-chat');
-const log = document.getElementById('chatlog');
-const input = document.getElementById('prompt');
-const send = document.getElementById('send');
+// Öffnen & Schließen des Chatfensters
+const chat = document.getElementById("chatWindow");
+document.getElementById("openChat").onclick = () => chat.classList.remove("hidden");
+document.getElementById("closeChat").onclick = () => chat.classList.add("hidden");
 
-openChat?.addEventListener('click', () => overlay.classList.remove('hidden'));
-closeChat?.addEventListener('click', () => overlay.classList.add('hidden'));
-overlay?.addEventListener('click', e => { if (e.target === overlay) overlay.classList.add('hidden'); });
+const messages = document.getElementById("chatMessages");
+const input = document.getElementById("userInput");
+const sendBtn = document.getElementById("sendBtn");
 
-function push(role, text) {
-  const div = document.createElement('div');
-  div.className = `msg ${role === 'user' ? 'you' : 'ai'}`;
-  div.textContent = text;
-  log.appendChild(div);
-  log.scrollTop = log.scrollHeight;
+async function sendMessage() {
+  const msg = input.value.trim();
+  if (!msg) return;
+  messages.innerHTML += `<div><b>Du:</b> ${msg}</div>`;
+  input.value = "";
+
+  const res = await fetch("/api/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message: msg })
+  });
+
+  const data = await res.json();
+  messages.innerHTML += `<div><b>ChatGPT:</b> ${data.reply}</div>`;
+  messages.scrollTop = messages.scrollHeight;
 }
 
-async function ask(t) {
-  if (!t) return;
-  push('user', t);
-  input.value = '';
-  send.disabled = true;
-  try {
-    const r = await fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: t })
-    });
-    const j = await r.json();
-    push('assistant', j.reply || '(keine Antwort)');
-  } catch (e) {
-    push('assistant', 'Fehler: ' + e.message);
-  } finally {
-    send.disabled = false;
-  }
-}
-
-send.addEventListener('click', () => ask(input.value.trim()));
-input.addEventListener('keydown', e => {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
-    ask(input.value.trim());
-  }
-});
-
-// Online/Offline Status
-async function checkStatus(card) {
-  const url = card.dataset.host;
-  try {
-    const controller = new AbortController();
-    const id = setTimeout(() => controller.abort(), 4000);
-    await fetch(url, { mode: 'no-cors', signal: controller.signal });
-    clearTimeout(id);
-    const dot = card.querySelector('.status');
-    dot.style.background = 'var(--on)';
-    dot.style.boxShadow = '0 0 8px var(--on)';
-  } catch {
-    const dot = card.querySelector('.status');
-    dot.style.background = 'var(--off)';
-    dot.style.boxShadow = '0 0 8px var(--off)';
-  }
-}
-
-document.querySelectorAll('.card[data-host]').forEach(c => checkStatus(c));
+sendBtn.onclick = sendMessage;
+input.addEventListener("keydown", (e) => e.key === "Enter" && sendMessage());

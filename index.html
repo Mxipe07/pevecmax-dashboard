@@ -2,72 +2,31 @@
 <html lang="de">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>PEVEC MAX · Dashboard</title>
-  <link rel="stylesheet" href="/styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PEVEC MAX · Services</title>
+
+  <!-- Iconify (externe Icon-Bibliothek, keine lokalen SVGs nötig) -->
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js" defer></script>
+
+  <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
-  <header class="topbar">
-    <h1>PEVEC MAX · <span>Services</span></h1>
+  <!-- Animierter Hintergrund -->
+  <div class="bg fx-layer"></div>
+  <div class="bg fx-layer fx-layer-2"></div>
+
+  <header class="page-head">
+    <h1><span>PEVEC MAX</span> · <span class="muted">Services</span></h1>
   </header>
 
-  <main class="shell">
-    <section class="grid">
-
-      <a class="card" href="https://haos.pevecmax.uk" target="_blank" rel="noopener">
-        <div class="card-icon">
-          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/homeassistant.svg" alt="Home Assistant">
-        </div>
-        <div class="card-text">
-          <div class="title">Home Assistant</div>
-          <div class="status"><span class="dot" data-url="https://haos.pevecmax.uk"></span> Status</div>
-        </div>
-      </a>
-
-      <a class="card" href="https://n8n.pevecmax.uk" target="_blank" rel="noopener">
-        <div class="card-icon">
-          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/n8n.svg" alt="n8n">
-        </div>
-        <div class="card-text">
-          <div class="title">n8n</div>
-          <div class="status"><span class="dot" data-url="https://n8n.pevecmax.uk"></span> Status</div>
-        </div>
-      </a>
-
-      <a class="card" href="https://paper.pevecmax.uk" target="_blank" rel="noopener">
-        <div class="card-icon">
-          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/nginx.svg" alt="Paperless NGINX">
-        </div>
-        <div class="card-text">
-          <div class="title">Paperless NGINX</div>
-          <div class="status"><span class="dot" data-url="https://paper.pevecmax.uk"></span> Status</div>
-        </div>
-      </a>
-
-      <a class="card" href="https://z2m.pevecmax.uk" target="_blank" rel="noopener">
-        <div class="card-icon">
-          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/zigbee.svg" alt="Zigbee2MQTT">
-        </div>
-        <div class="card-text">
-          <div class="title">Zigbee2MQTT</div>
-          <div class="status"><span class="dot" data-url="https://z2m.pevecmax.uk"></span> Status</div>
-        </div>
-      </a>
-
-      <a class="card" href="https://nas.pevecmax.uk" target="_blank" rel="noopener">
-        <div class="card-icon">
-          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/network.svg" alt="Ugreen NAS">
-        </div>
-        <div class="card-text">
-          <div class="title">Ugreen NAS</div>
-          <div class="status"><span class="dot" data-url="https://nas.pevecmax.uk"></span> Status</div>
-        </div>
-      </a>
-
-    </section>
+  <main class="container" id="cards">
+    <!-- Karten werden per JS aus app.js gerendert -->
   </main>
 
-  <footer class="foot">© pevecmax.uk</footer>
-  <script src="/app.js"></script>
+  <footer class="footer">
+    <span>© pevecmax.uk</span>
+  </footer>
+
+  <script src="./app.js" type="module"></script>
 </body>
 </html>

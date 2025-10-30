@@ -1,146 +1,184 @@
 /* =======================
-   Vision Glass · Tokens
+   Design Tokens (Dark)
    ======================= */
 :root{
-  --text: #e9eaee;
-  --text-dim:#b8bdc7;
+  --bg: #0b0f14;
+  --text: #e8ebf0;
+  --muted:#b8bfca;
 
-  --glass-bg: rgba(255,255,255,0.055);
-  --glass-border: rgba(255,255,255,0.14);
-  --glass-hi: rgba(255,255,255,0.10);
-  --shadow: rgba(0,0,0,0.45);
+  --glass-bg: rgba(255,255,255,0.08);
+  --glass-border: rgba(255,255,255,0.18);
+  --glass-inner: rgba(255,255,255,0.06);
 
-  --radius-xxl: 44px;   /* schöne Rundung */
-  --radius-xl: 26px;
+  --shadow: 0 10px 40px rgba(0,0,0,0.35);
+  --radius-xl: 28px;
+  --radius-lg: 22px;
+  --pad-card: 18px;
 
-  --pad-y: 16px;        /* kompakter als vorher */
-  --pad-x: 18px;
-  --icon-size: 60px;    /* kompakter */
-  --title-size: clamp(18px, 2.1vw, 22px);
+  --good: #38e27d;
+  --warn: #ffb020;
+  --bad:  #9aa2ac;
+
+  --backdrop-blur: 22px;
+  --maxw: 980px;
 }
 
-*{box-sizing:border-box}
-html,body{height:100%}
+/* =======================
+   Theme: Light Overrides
+   ======================= */
+html[data-theme="light"]{
+  --bg: #f5f7fb;
+  --text: #0d1220;
+  --muted:#5c6578;
+
+  /* Glas bleibt grau & transluzent, nur Helligkeit angepasst */
+  --glass-bg: rgba(255,255,255,0.65);
+  --glass-border: rgba(0,0,0,0.06);
+  --glass-inner: rgba(255,255,255,0.75);
+
+  --shadow: 0 8px 30px rgba(0,0,0,0.12);
+  --good: #0ea86b;
+  --warn: #c97a08;
+  --bad:  #9aa3ad;
+}
+
+*{ box-sizing: border-box; -webkit-tap-highlight-color: transparent }
+html,body{ height:100% }
 body{
   margin:0; color:var(--text);
-  font: 500 16px/1.45 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
-  background:#0b0e13;
+  font:500 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Inter, "SF Pro Text", Arial, sans-serif;
+  background: var(--bg);
   overflow-x:hidden;
+  transition: background-color .3s ease, color .3s ease;
 }
 
-/* ===== Background: clean & dezent bewegt ===== */
-.bg.layer{
-  position:fixed; inset:-12% -8% -8% -8%; z-index:-2;
-  transform: translateZ(0);
-}
-.bg.base{
-  background:
-    radial-gradient(45% 55% at 18% 22%, #171725 0%, transparent 70%),
-    radial-gradient(50% 60% at 82% 28%, #151b27 0%, transparent 70%),
-    radial-gradient(60% 65% at 50% 90%, #0f2130 0%, transparent 75%);
-  animation: driftA 52s ease-in-out infinite;
-  filter: saturate(1.05) contrast(1.03);
-}
-.bg.glow{
-  z-index:-1; opacity:.45;
-  background:
-    radial-gradient(35% 40% at 15% 72%, #572f8a 0%, transparent 70%),
-    radial-gradient(30% 35% at 86% 72%, #1b4a6c 0%, transparent 70%);
-  animation: driftB 70s linear infinite reverse;
-}
-@keyframes driftA{
-  0%{transform: translate3d(0,0,0) scale(1.04)}
-  50%{transform: translate3d(0,-1.2%,0) scale(1.07)}
-  100%{transform: translate3d(0,0,0) scale(1.04)}
-}
-@keyframes driftB{
-  0%{transform: translate3d(0,0,0) scale(1.10)}
-  50%{transform: translate3d(0,1.2%,0) scale(1.13)}
-  100%{transform: translate3d(0,0,0) scale(1.10)}
+#aurora{
+  position:fixed; inset:0; width:100%; height:100%; z-index:-1;
 }
 
-/* ===== Header ===== */
-.page-head{
-  position:sticky; top:0; padding:22px 16px 8px;
-  backdrop-filter: blur(8px) saturate(150%);
-  -webkit-backdrop-filter: blur(8px) saturate(150%);
-  background: linear-gradient(to bottom, rgba(8,10,14,0.55), rgba(8,10,14,0));
+/* Header */
+.site-header{
+  max-width:var(--maxw); margin:48px auto 24px; padding:0 16px;
 }
-.page-head h1{
-  margin:0 auto; max-width:980px; padding:0 8px;
-  font-size: clamp(26px, 3.4vw, 42px);
-}
-.muted{color:var(--text-dim)}
-
-/* ===== Layout ===== */
-.container{
-  max-width:980px; margin:18px auto 64px; padding:0 12px 12px;
-  display:grid; gap:14px;
+.site-title{
+  margin:0; letter-spacing:.4px;
+  font-size: clamp(28px, 3.6vw + 12px, 52px);
+  font-weight:800;
+  text-shadow: 0 2px 18px rgba(0,0,0,.15);
 }
 
-/* ===== Karte (schlanker) ===== */
-a.card{text-decoration:none; color:inherit}
-a.card:visited{color:inherit}
+/* Kartenliste */
+.cards{
+  max-width:var(--maxw);
+  margin: 0 auto 80px;
+  padding: 0 12px;
+  display: grid;
+  gap: 18px;
+}
 
+/* Glas-Karte */
 .card{
-  position:relative; display:flex; align-items:center; gap:14px;
-  padding: var(--pad-y) var(--pad-x);
-  border-radius: var(--radius-xxl);
+  position:relative; border-radius: var(--radius-xl);
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.06),
-    inset 0 14px 36px var(--glass-hi),
-    0 10px 38px var(--shadow);
-  backdrop-filter: blur(22px) saturate(180%);
-  -webkit-backdrop-filter: blur(22px) saturate(180%);
-  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
-  min-height: 82px;   /* kompakt */
+  box-shadow: var(--shadow), inset 0 0 0 1px var(--glass-inner);
+  backdrop-filter: blur(var(--backdrop-blur)) saturate(160%);
+  -webkit-backdrop-filter: blur(var(--backdrop-blur)) saturate(160%);
+  overflow: clip;
+  transition: transform .5s cubic-bezier(.2,.7,.2,1), box-shadow .4s ease, background .3s ease, border-color .3s ease;
 }
-.card:hover{ transform: translateY(-1.5px); border-color: rgba(255,255,255,.20) }
+.card:where(:hover,:focus-within){
+  transform: translateY(-2px);
+}
 
-/* Icon-Blase kompakter */
-.icon-wrap{
-  width: var(--icon-size); height: var(--icon-size); border-radius: 24px; flex:0 0 auto;
+/* Inhalt */
+.card-body{
+  display:flex; align-items:center; gap:16px;
+  padding: var(--pad-card);
+  min-height: 92px;
+}
+
+/* Link Overlay (öffnet Kachel) */
+.card-link{ position:absolute; inset:0; z-index:1 }
+
+/* Iconfeld */
+.card-icon{
+  width:72px; height:72px; min-width:72px;
+  border-radius: var(--radius-lg);
   display:grid; place-items:center;
-  background: rgba(255,255,255,0.06);
-  border:1px solid rgba(255,255,255,0.11);
-  box-shadow: inset 0 8px 20px rgba(255,255,255,0.08);
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.25), 0 10px 30px rgba(0,0,0,.18);
 }
-iconify-icon{ font-size: 30px; color:#eef1f9 }
+html[data-theme="light"] .card-icon{
+  background: linear-gradient(180deg, rgba(255,255,255,.9), rgba(255,255,255,.65));
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.9), 0 10px 24px rgba(0,0,0,.08);
+}
+.card-icon img{
+  width:36px; height:36px; object-fit:contain;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,.25));
+  opacity:.95;
+}
 
-.meta{ display:flex; flex-direction:column; gap:6px; min-width:0 }
-.title{ font-size: var(--title-size); font-weight:700; line-height:1.15 }
-.row{ display:flex; align-items:center; gap:10px; color:var(--text-dim); font-size:14.5px }
+/* Text */
+.card-main{ flex:1; min-width:0 }
+.card-title{
+  font-size: clamp(18px, 1.6vw + 10px, 26px);
+  font-weight: 800; margin: 2px 0 6px; letter-spacing:.2px;
+}
+.card-meta{ display:flex; align-items:center; gap:12px; color:var(--muted); font-weight:600 }
 
-/* Statuspunkte */
-.dot{ width:10px; height:10px; border-radius:99px; display:inline-block; box-shadow: 0 0 0 2px rgba(0,0,0,.28), 0 0 10px currentColor }
-.dot.ok{ background:#34d399; color:#34d399 }
-.dot.warn{ background:#f59e0b; color:#f59e0b }
-.dot.off{ background:#6b7280; color:#6b7280 }
-.dot.check{ background:#60a5fa; color:#60a5fa; animation:pulse 1.2s ease-in-out infinite }
-@keyframes pulse{
-  0%,100%{ box-shadow: 0 0 0 2px rgba(0,0,0,.28), 0 0 6px currentColor }
-  50%{ box-shadow: 0 0 0 2px rgba(0,0,0,.28), 0 0 14px currentColor }
+/* Statuspunkt */
+.dot{
+  width:12px; height:12px; border-radius:50%;
+  box-shadow: 0 0 10px currentColor, inset 0 0 0 1px rgba(0,0,0,.35);
+}
+.dot.ok{ background: var(--good); color: var(--good) }
+.dot.warn{ background: var(--warn); color: var(--warn) }
+.dot.off{ background: var(--bad);  color: var(--bad) }
+
+/* Details (auf-/zuklappen beim Scroll) */
+.card-details{
+  padding: 0 var(--pad-card) 14px calc(var(--pad-card) + 72px + 16px);
+  display:grid; gap:8px; color: var(--muted);
+  max-height:0; opacity:0; transform: translateY(-6px);
+  transition: max-height .6s cubic-bezier(.25,.8,.25,1), opacity .35s ease, transform .35s ease;
+}
+.card.expanded .card-details{
+  max-height: 160px; opacity:1; transform:none;
+}
+
+/* sanfter OK-Glow (beide Themes fein) */
+.card.ok{
+  animation: okGlow 3s ease-in-out infinite alternate;
+}
+@keyframes okGlow{
+  from{ box-shadow: var(--shadow) }
+  to  { box-shadow: 0 16px 60px rgba(0,0,0,.40), 0 0 24px 4px rgba(56,226,125,.16) }
 }
 
 /* Footer */
-.footer{ text-align:center; color:var(--text-dim); padding:36px 12px 56px }
+.footer{ text-align:center; color:var(--muted); margin: 22px 0 38px }
 
-/* Motion-Reduktion */
-@media (prefers-reduced-motion: reduce){
-  .bg.layer{ animation:none }
-  .dot.check{ animation:none }
-  .card{ transition: border-color .15s ease }
+/* Floating Theme Toggle */
+.fab{
+  position: fixed; left: 14px; bottom: 16px; z-index: 5;
+  width: 46px; height: 46px; border-radius: 999px; border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  box-shadow: var(--shadow);
+  color: var(--text);
+  display:grid; place-items:center; cursor: pointer;
+  transition: transform .2s ease, box-shadow .2s ease, background .3s ease, border-color .3s ease;
 }
+.fab:hover{ transform: translateY(-1px) }
+.fab .icon{ font-size: 18px; line-height: 1 }
 
-/* Kleinere Geräte: noch kompakter */
-@media (max-width:420px){
-  :root{
-    --pad-y: 14px;
-    --pad-x: 16px;
-    --icon-size: 56px;
-    --title-size: 18px;
-  }
-  .container{ gap:12px }
+/* Kleinere Geräte */
+@media (max-width:480px){
+  :root{ --radius-xl: 26px; --radius-lg: 20px; --pad-card: 16px }
+  .card-icon{ width:64px; height:64px; min-width:64px }
+  .card-title{ font-size: 20px }
 }

@@ -1,97 +1,59 @@
 <!doctype html>
-<html lang="de" data-theme="auto">
+<html lang="de">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Pevec Max · Services</title>
-
-  <!-- Icons (Iconify) -->
-  <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
-  <!-- Google Identity Services (für OAuth) -->
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="/styles.css">
+  <script defer src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+  <script defer src="/app.js"></script>
 </head>
-<body>
-  <!-- Hintergrund-Layer -->
+<body data-page="home">
   <div class="bg layer base"></div>
   <div class="bg layer glow"></div>
 
-  <!-- Sticky Header -->
   <header class="page-head">
-    <h1>
-      <span class="title-left">Pevec Max · <span class="muted">Services</span></span>
-      <span class="auth-right">
-        <!-- Login-Button (nur sichtbar, wenn abgemeldet) -->
-        <button id="btn-login" class="chip ghost" aria-label="Mit Google anmelden">
-          <span class="glogo" aria-hidden="true">G</span>
-          <span class="label">Anmelden</span>
-        </button>
-
-        <!-- Profil + Logout (nur sichtbar, wenn angemeldet) -->
-        <img id="avatar" class="avatar hidden" alt="Profilbild" referrerpolicy="no-referrer" />
-        <button id="btn-logout" class="chip ghost hidden" aria-label="Abmelden" title="Abmelden">
-          <iconify-icon icon="lucide:log-out"></iconify-icon>
-        </button>
-      </span>
-    </h1>
+    <h1><span class="muted">Pevec Max · </span>Services</h1>
+    <div id="user-actions" class="user-actions hidden">
+      <img id="avatar" alt="Profil" class="avatar hidden" referrerpolicy="no-referrer">
+      <button id="logoutBtn" class="btn ghost hidden" title="Abmelden">
+        <iconify-icon icon="mdi:logout" width="20"></iconify-icon>
+      </button>
+    </div>
   </header>
 
-  <!-- Inhalt -->
-  <main class="container" id="cards">
-    <!-- Home Assistant -->
-    <a class="card" href="https://haos.pevecmax.uk" target="_blank" rel="noopener">
-      <span class="icon-wrap"><iconify-icon icon="mdi:home-assistant"></iconify-icon></span>
-      <span class="meta">
-        <span class="title">Home Assistant</span>
-        <span class="row"><span class="dot ok"></span> Status</span>
-      </span>
+  <main class="container">
+    <a class="card" href="https://pevecmax.uk" target="_blank">
+      <div class="icon-wrap"><iconify-icon icon="mdi:home-assistant"></iconify-icon></div>
+      <div class="meta"><div class="title">Home Assistant</div><div class="row"><span class="dot ok"></span>Status</div></div>
     </a>
 
-    <!-- n8n -->
-    <a class="card" href="https://n8n.pevecmax.uk" target="_blank" rel="noopener">
-      <span class="icon-wrap"><iconify-icon icon="mdi:vector-line"></iconify-icon></span>
-      <span class="meta">
-        <span class="title">n8n</span>
-        <span class="row"><span class="dot ok"></span> Status</span>
-      </span>
+    <a class="card" href="https://n8n.pevecmax.uk" target="_blank">
+      <div class="icon-wrap"><iconify-icon icon="mdi:vector-polyline"></iconify-icon></div>
+      <div class="meta"><div class="title">n8n</div><div class="row"><span class="dot ok"></span>Status</div></div>
     </a>
 
-    <!-- Paperless NGINX -->
-    <a class="card" href="https://paper.pevecmax.uk" target="_blank" rel="noopener">
-      <span class="icon-wrap"><iconify-icon icon="simple-icons:nginx"></iconify-icon></span>
-      <span class="meta">
-        <span class="title">Paperless NGINX</span>
-        <span class="row"><span class="dot ok"></span> Status</span>
-      </span>
+    <a class="card" href="https://paper.pevecmax.uk" target="_blank">
+      <div class="icon-wrap"><iconify-icon icon="simple-icons:nginx"></iconify-icon></div>
+      <div class="meta"><div class="title">Paperless NGINX</div><div class="row"><span class="dot ok"></span>Status</div></div>
     </a>
 
-    <!-- Zigbee2MQTT -->
-    <a class="card" href="https://z2m.pevecmax.uk" target="_blank" rel="noopener">
-      <span class="icon-wrap"><iconify-icon icon="mdi:zigbee"></iconify-icon></span>
-      <span class="meta">
-        <span class="title">Zigbee2MQTT</span>
-        <span class="row"><span class="dot ok"></span> Status</span>
-      </span>
+    <a class="card" href="https://z2m.pevecmax.uk" target="_blank">
+      <div class="icon-wrap"><iconify-icon icon="mdi:zigbee"></iconify-icon></div>
+      <div class="meta"><div class="title">Zigbee2MQTT</div><div class="row"><span class="dot ok"></span>Status</div></div>
     </a>
 
-    <!-- Ugreen NAS -->
-    <a class="card" href="https://nas.pevecmax.uk" target="_blank" rel="noopener">
-      <span class="icon-wrap"><iconify-icon icon="mdi:server"></iconify-icon></span>
-      <span class="meta">
-        <span class="title">Ugreen NAS</span>
-        <span class="row"><span class="dot off"></span> Status</span>
-      </span>
+    <a class="card" href="#" onclick="return false;">
+      <div class="icon-wrap"><iconify-icon icon="mdi:server"></iconify-icon></div>
+      <div class="meta"><div class="title">Ugreen NAS</div><div class="row"><span class="dot off"></span>Status</div></div>
     </a>
   </main>
 
-  <!-- Theme-Toggle (unten links) -->
-  <button id="theme-toggle" class="theme-fab" aria-label="Theme wechseln">
-    <iconify-icon id="theme-icon" icon="mdi:weather-night"></iconify-icon>
+  <button id="themeToggle" class="fab" title="Theme wechseln">
+    <iconify-icon class="icon-dark" icon="mdi:weather-night" width="22"></iconify-icon>
+    <iconify-icon class="icon-light" icon="mdi:weather-sunny" width="22"></iconify-icon>
   </button>
 
   <footer class="footer">© pevecmax.uk</footer>
-
-  <script src="app.js"></script>
 </body>
 </html>

@@ -20,8 +20,7 @@
   --icon-size: 60px;
   --title-size: clamp(18px, 2.1vw, 22px);
 
-  /* Buttons / Controls */
-  --btn-fg: #0e1014;          /* wird im Light-Mode benutzt */
+  --btn-fg: #0e1014;
   --btn-bg: rgba(255,255,255,.9);
   --btn-bg-d: rgba(255,255,255,.1);
 }
@@ -52,6 +51,7 @@ body{
   font: 500 16px/1.45 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
   background:#0b0e13;
   overflow-x:hidden;
+  transition: background-color 0.5s, color 0.5s;
 }
 
 .hidden{display:none!important}
@@ -129,7 +129,7 @@ body{
   font-weight:800; font-family:system-ui,ui-sans-serif;
 }
 
-/* Logout-Button (Iconkreis) – im Light-Mode nicht „weiß auf weiß“ */
+/* Logout-Button (Iconkreis) */
 .logout-btn{
   width:44px; height:44px; border-radius:999px; display:grid; place-items:center;
   border:1px solid var(--glass-border);
@@ -183,7 +183,6 @@ a.card:visited{color:inherit}
   border:1px solid rgba(255,255,255,0.11);
   box-shadow: inset 0 8px 20px rgba(255,255,255,0.08);
 }
-/* mehr Kontrast hinter den Icon-Blasen im Light-Mode */
 :root.light .icon-wrap{
   background: rgba(0,0,0,0.06);
   border-color: rgba(0,0,0,0.10);
@@ -204,7 +203,7 @@ iconify-icon{ font-size: 30px; color:#eef1f9 }
 .dot.check{ background:#60a5fa; color:#60a5fa; animation:pulse 1.2s ease-in-out infinite }
 @keyframes pulse{0%,100%{ box-shadow: 0 0 0 2px rgba(0,0,0,.28), 0 0 6px currentColor }50%{ box-shadow: 0 0 0 2px rgba(0,0,0,.28), 0 0 14px currentColor }}
 
-/* Theme FAB */
+/* ===== Theme FAB (Switcher) ===== */
 .theme-fab{
   position:fixed; left:20px; bottom:22px; z-index:10;
   width:64px; height:64px; border-radius:999px; display:grid; place-items:center;
@@ -212,13 +211,13 @@ iconify-icon{ font-size: 30px; color:#eef1f9 }
   border:1px solid var(--glass-border);
   box-shadow: 0 10px 30px var(--shadow), inset 0 1px 0 rgba(255,255,255,.06);
   backdrop-filter: blur(16px) saturate(160%);
+  cursor:pointer;
+  transition: all .25s ease;
 }
-.theme-fab iconify-icon{font-size:26px}
+.theme-fab:hover{ transform:scale(1.06) }
+.theme-fab iconify-icon{font-size:26px; color:var(--text)}
 
-/* Footer */
-.footer{ text-align:center; color:var(--text-dim); padding:36px 12px 56px }
-
-/* ===== Login-Seite (gleicher Look) ===== */
+/* ===== Login-Seite ===== */
 .login-bg{
   min-height:100dvh; display:grid; place-items:center; padding:24px;
 }
